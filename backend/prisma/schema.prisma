@@ -1,0 +1,137 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  nome         String?
+  empresa      String?
+  telefone     String?
+  role         String        @default("user")
+  equipamentos Equipamento[]
+  manutencoes  Manutencao[]
+  categorias   Categoria[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  documentos   Documento[]
+}
+
+model Equipamento {
+  id            Int          @id @default(autoincrement())
+  nome          String
+  tag           String?
+  numeroSerie   String?
+  fabricante    String?
+  modelo        String?
+  dataAquisicao DateTime?
+  localizacao   String?
+  unidade       String?
+  disciplina    String?
+  detalhes      String?
+  area          String?
+  tipo          String       @default("Equipamento")
+  categoriaId   Int?
+  categoria     Categoria?   @relation(fields: [categoriaId], references: [id])
+  userId        Int
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  manutencoes   Manutencao[]
+  documentos    Documento[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("equipamentos")
+}
+
+model Manutencao {
+  id                    Int                 @id @default(autoincrement())
+  codigo                String              @unique
+  titulo                String
+  descricao             String?
+  dataHora              DateTime            @default(now())
+  dataPrimeiraRevisao   DateTime?
+  dataProximaManutencao DateTime?
+  status                String              @default("recebida")
+  criticidade           String?
+  tipo                  String?
+  solicitante           String?
+  responsavel           String?
+  observacoes           String?
+  prioridade            String              @default("media")
+  dataPrevisao          DateTime?
+  arquivada             Boolean             @default(false)
+  equipamentoId         Int?
+  equipamento           Equipamento?        @relation(fields: [equipamentoId], references: [id])
+  userId                Int
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  historicoTecnicos     ManutencaoTecnico[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@map("manutencoes")
+}
+
+model ManutencaoTecnico {
+  id              Int       @id @default(autoincrement())
+  manutencaoId    Int
+  tecnicoNome     String
+  statusAnterior  String?
+  statusAtual     String?
+  observacoes     String?
+  dataAtribuicao  DateTime  @default(now())
+  dataFinalizacao DateTime?
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  relatorioTecnico String?
+  horasTrabalho    Float?
+  materiaisUsados  String?
+
+  manutencao Manutencao @relation(fields: [manutencaoId], references: [id], onDelete: Cascade)
+
+  @@map("manutencao_tecnicos")
+}
+
+model Documento {
+  id            Int         @id @default(autoincrement())
+  titulo        String
+  nome          String?
+  tipo          String      @default("manual")
+  descricao     String?
+  arquivo       String?
+  url           String?
+  fileName      String?
+  pdfFileName   String?
+  tamanho       Int?
+  versao        Int         @default(1)
+  revisao       String?
+  equipamentoId Int
+  equipamento   Equipamento @relation(fields: [equipamentoId], references: [id], onDelete: Cascade)
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("documentos")
+}
+
+model Categoria {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  descricao    String?
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  equipamentos Equipamento[]
+
+  @@unique([nome, userId])
+  @@map("categorias")
+}
