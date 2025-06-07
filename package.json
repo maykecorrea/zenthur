@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "zenthur-projeto-completo",
+  "version": "3.0.0",
+  "description": "Sistema Zenthur completo: Backend híbrido + Frontend Nuxt3 + APS Viewer",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --prefix-colors \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" --names \"🔧APS,⚡Backend,🌐Frontend\" \"npm run dev:aps\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:aps": "cd aps-simple-viewer-nodejs-develop && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start": "npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd frontend && npm install && cd aps-simple-viewer-nodejs-develop && npm install",
+    "clean:all": "rimraf node_modules backend/node_modules frontend/node_modules aps-simple-viewer-nodejs-develop/node_modules",
+    "build": "cd frontend && npm run build && cd ../backend && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "prisma:generate": "cd backend && npm run prisma:generate",
+    "prisma:studio": "cd backend && npm run prisma:studio",
+    "prisma:migrate": "cd backend && npm run prisma:migrate",
+    "test": "cd backend && npm run test",
+    "test:frontend": "cd frontend && npm run test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
+  },
+  "workspaces": [
+    "backend",
+    "frontend",
+    "aps-simple-viewer-nodejs-develop"
+  ],
+  "keywords": [
+    "zenthur",
+    "monorepo",
+    "maintenance-system",
+    "equipment-management",
+    "aps-viewer",
+    "autodesk-forge",
+    "nuxt3",
+    "nestjs",
+    "express",
+    "prisma",
+    "vue3",
+    "tailwindcss"
+  ],
+  "author": "Zenthur Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

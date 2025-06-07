@@ -1,0 +1,331 @@
+# ================================
+# FRONTEND - Nuxt.js & Vue.js
+# ================================
+
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ================================
+# NUXT.JS ESPECÍFICO
+# ================================
+
+# Nuxt dev/build outputs
+.output
+.nuxt
+.nitro
+.cache
+dist
+
+# Nuxt generate
+dist/
+
+# Nuxt analyze
+.nuxt-analyze/
+
+# ================================
+# VUE.JS & VITE
+# ================================
+
+# Vite
+.vite
+
+# Vue CLI
+.vue-cli-cache/
+
+# ================================
+# ENVIRONMENT & CONFIG
+# ================================
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# ================================
+# LOGS & TEMP
+# ================================
+
+# Logs
+logs
+*.log
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary directories
+.temp/
+.tmp/
+temp/
+tmp/
+
+# ================================
+# CACHE & BUILD
+# ================================
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Parcel-bundler cache
+.cache
+.parcel-cache
+
+# Webpack
+.webpack/
+
+# Rollup
+.rollup.cache/
+
+# ================================
+# TESTING & COVERAGE
+# ================================
+
+# Coverage directory usado por ferramentas como istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Jest
+.jest/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ================================
+# STORYBOOK
+# ================================
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+
+# ================================
+# ASSETS & UPLOADS
+# ================================
+
+# Arquivos de upload do usuário
+static/uploads/
+public/uploads/
+assets/uploads/
+
+# Arquivos gerados
+public/generated/
+static/generated/
+
+# Imagens otimizadas/comprimidas
+public/compressed/
+static/compressed/
+
+# ================================
+# IDE & EDITORS
+# ================================
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# WebStorm/IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ================================
+# OS GENERATED
+# ================================
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+
+# ================================
+# DEPLOYMENT
+# ================================
+
+# Netlify
+.netlify
+
+# Vercel
+.vercel
+
+# Static site generators
+.docusaurus
+.cache/
+
+# ================================
+# DOCKER
+# ================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# ================================
+# SECURITY
+# ================================
+
+# Chaves privadas
+*.pem
+*.p12
+*.pfx
+*.key
+
+# Certificados
+*.crt
+*.cer
+
+# ================================
+# FIREBASE
+# ================================
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# ================================
+# ANALYTICS & MONITORING
+# ================================
+
+# Sentry
+.sentryclirc
+
+# ================================
+# MISCELLANEOUS
+# ================================
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# Lock files (opcional - comente se quiser versionar)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Capacitor
+.capacitor/
+android/
+ios/
+
+# Ionic
+www/
+$IONIC_TMP
+$IONIC_PLATFORMS
+
+# Electron
+out/
+build/
+app/
+release/
+
+# PWA
+sw.*
+workbox-*
+
+# Auto-generated files
+components.d.ts
+auto-imports.d.ts
+
+# Windi CSS
+.windi-cache/
+
+# UnoCSS
+.uno.css
+
+# Histoire
+.histoire/
+
+# ================================
+# SITEMAP & SEO
+# ================================
+
+# Auto-generated sitemaps
+sitemap.xml
+robots.txt
+
+# ================================
+# ANALYTICS
+# ================================
+
+# Google Analytics
+gtag/
+
+# ================================
+# API KEYS & TOKENS (IMPORTANTE!)
+# ================================
+
+# Nunca versione tokens ou chaves de API
+**/secrets.json
+**/credentials.json
+**/.credentials
+**/auth.json
+**/.auth
+
+# Forge/APS specific
+.forge-credentials
+forge-tokens.json

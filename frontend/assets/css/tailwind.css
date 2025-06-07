@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #4f46e5;
+  --secondary-dark: #4338ca;
+  --accent: #0ea5e9;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --light: #f8fafc;
+  --dark: #1e293b;
+  --gray: #64748b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  html {
+    @apply text-gray-800;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gray-50;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium text-gray-900 leading-tight;
+  }
+  
+  h1 {
+    @apply text-3xl sm:text-4xl;
+  }
+  
+  h2 {
+    @apply text-2xl sm:text-3xl;
+  }
+  
+  h3 {
+    @apply text-xl sm:text-2xl;
+  }
+}
+
+@layer components {
+  /* Botões melhorados com efeitos */
+  .btn {
+    @apply px-4 py-2 rounded-md transition-all duration-300 font-medium flex items-center justify-center gap-2 relative overflow-hidden;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(0);
+  }
+  
+  .btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 bg-white transition-opacity duration-300;
+  }
+  
+  .btn:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .btn:active {
+    transform: translateY(0);
+  }
+  
+  .btn:hover::after {
+    opacity: 0.1;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary);
+    @apply text-white;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .btn-secondary {
+    background-color: var(--secondary);
+    @apply text-white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--secondary-dark);
+  }
+  
+  .btn-danger {
+    background-color: var(--danger);
+    @apply text-white;
+  }
+  
+  .btn-danger:hover {
+    background-color: #dc2626;
+  }
+  
+  .btn-success {
+    background-color: var(--success);
+    @apply text-white;
+  }
+  
+  .btn-success:hover {
+    background-color: #059669;
+  }
+  
+  .btn-warning {
+    background-color: var(--warning);
+    @apply text-white;
+  }
+  
+  .btn-warning:hover {
+    background-color: #d97706;
+  }
+  
+  .btn-outline {
+    @apply bg-transparent border text-blue-600;
+    border-color: var(--primary);
+  }
+  
+  .btn-outline:hover {
+    background-color: rgba(37, 99, 235, 0.05);
+  }
+  
+  .btn-sm {
+    @apply text-sm px-3 py-1;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
+  
+  /* Inputs melhorados */
+  .form-input {
+    @apply border border-gray-300 rounded-md p-2 w-full transition-all duration-200 outline-none;
+  }
+  
+  .form-input:hover {
+    @apply border-gray-400;
+  }
+  
+  .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+  }
+  
+  .input-group {
+    @apply mb-4;
+  }
+  
+  .input-label {
+    @apply block mb-1 text-sm font-medium text-gray-700;
+  }
+  
+  /* Cards com efeitos */
+  .card {
+    @apply bg-white p-6 rounded-lg transition-all duration-300 h-full;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .card:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .card-interactive {
+    @apply cursor-pointer;
+  }
+  
+  .card-interactive:hover {
+    transform: translateY(-4px);
+  }
+  
+  /* Tabelas estilizadas */
+  .table-container {
+    @apply overflow-x-auto rounded-lg shadow-sm;
+  }
+  
+  .table {
+    @apply min-w-full bg-white;
+  }
+  
+  .table th {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b;
+  }
+  
+  .table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm border-b border-gray-200;
+  }
+  
+  .table tr:hover {
+    @apply bg-gray-50;
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+  }
+  
+  .badge-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+  }
+  
+  .badge-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+  }
+  
+  .badge-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+  }
+  
+  /* Alertas */
+  .alert {
+    @apply p-4 mb-4 rounded-md;
+  }
+  
+  .alert-info {
+    @apply bg-blue-50 text-blue-800;
+  }
+  
+  .alert-success {
+    @apply bg-green-50 text-green-800;
+  }
+  
+  .alert-warning {
+    @apply bg-yellow-50 text-yellow-800;
+  }
+  
+  .alert-danger {
+    @apply bg-red-50 text-red-800;
+  }
+  
+  /* Navegação */
+  .nav-item {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+  }
+  
+  .nav-item:hover {
+    @apply bg-gray-100;
+  }
+  
+  .nav-item.active {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+  }
+}
+
+/* Animações personalizadas */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn var(--transition-normal) ease-out;
+  }
+
+  .animate-slide-in {
+    animation: slideInUp var(--transition-normal) ease-out;
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+/* Classes responsivas adicionais */
+@media (max-width: 640px) {
+  .mobile-full {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+/* Dark mode - opcional */
+.dark-mode {
+  @apply bg-gray-900 text-gray-100;
+}
+
+.dark-mode .card {
+  @apply bg-gray-800 text-gray-200;
+}
+
+.dark-mode .form-input {
+  @apply bg-gray-700 border-gray-600 text-white;
+}
+
+.dark-mode .table {
+  @apply bg-gray-800 text-gray-200;
+}
+
+.dark-mode .table td {
+  @apply border-gray-700;
+}
+
+.dark-mode .table tr:hover {
+  @apply bg-gray-700;
+}
