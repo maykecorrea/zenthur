@@ -19,11 +19,12 @@ router.get('/', authMiddleware, async (req, res) => {
     
     const skip = (parseInt(page) - 1) * parseInt(limit);
     
+    // ✅ CORRIGIR O INCLUDE DAS MANUTENÇÕES
     const [manutencoes, total] = await Promise.all([
       prisma.manutencao.findMany({
         where: whereCondition,
         include: {
-          user: {
+          user: {  // ✅ USAR 'user' EM VEZ DE 'autor'
             select: { id: true, nome: true, email: true, telefone: true, empresa: true }
           },
           equipamento: {

@@ -21,6 +21,14 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// ⭐ SERVIR ARQUIVOS ESTÁTICOS (CRÍTICO PARA IMAGENS)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+  setHeaders: (res, path) => {
+    console.log('📁 Servindo arquivo:', path);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+}));
+
 // ⭐ CONFIGURAÇÃO DO MULTER PARA UPLOADS (APENAS DOCUMENTOS)
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -57,7 +65,7 @@ const upload = multer({
 });
 
 // ⭐ IMPORTAR ROTAS (APENAS AS QUE EXISTEM)
-let authRoutes, categoriaRoutes, equipamentoRoutes, manutencaoRoutes, documentoRoutes, usersRoutes;
+let authRoutes, categoriaRoutes, equipamentoRoutes, manutencaoRoutes, documentoRoutes, usersRoutes, plantasRoutes;
 
 try {
   const authMiddleware = require('./middleware/auth'); 
@@ -102,6 +110,13 @@ try {
   console.warn('⚠️ Users routes não encontradas:', error.message);
 }
 
+try {
+  plantasRoutes = require('./routes/plantas');
+  console.log('✅ Planta routes carregadas');
+} catch (error) {
+  console.warn('⚠️ Planta routes não encontradas:', error.message);
+}
+
 // ⭐ REGISTRAR ROTAS (APENAS AS QUE EXISTEM)
 if (categoriaRoutes) {
   app.use('/api/categorias', categoriaRoutes);
@@ -126,6 +141,11 @@ if (documentoRoutes) {
 if (usersRoutes) {
   app.use('/api/users', usersRoutes);
   console.log('🔗 Rota /api/users registrada');
+}
+
+if (plantasRoutes) {
+  app.use('/api/plantas', plantasRoutes);
+  console.log('🔗 Rota /api/plantas registrada');
 }
 
 // ⭐ ROTA DE HEALTH CHECK

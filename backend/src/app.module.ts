@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MulterModule } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
+import * as multer from 'multer';
 
-// ⭐ IMPORTS DOS MÓDULOS (apenas os que existem)
+// ⭐ IMPORTS DOS MÓDULOS
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -15,9 +17,9 @@ import { DocumentosModule } from './documentos/documentos.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { SearchModule } from './search/search.module';
-
 import { FilesModule } from './files/files.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { PlantasModule } from './plantas/plantas.module'; // ✅ IMPORT CRÍTICO
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -29,7 +31,14 @@ import { AppService } from './app.service';
       envFilePath: '.env'
     }),
     
-    // ⭐ MÓDULOS PRINCIPAIS
+    // ✅ CONFIGURAÇÃO MULTER GLOBAL
+    MulterModule.register({
+      storage: multer.memoryStorage(),
+      limits: {
+        fileSize: 10 * 1024 * 1024, // 10MB
+      },
+    }),
+    
     PrismaModule,
     AuthModule,
     UsersModule,
@@ -39,9 +48,9 @@ import { AppService } from './app.service';
     DashboardModule,
     CategoriasModule,
     SearchModule,
-    
     FilesModule,
     AppointmentsModule,
+    PlantasModule, // ✅ MÓDULO PLANTAS ADICIONADO
     
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
@@ -64,7 +73,6 @@ import { AppService } from './app.service';
 export class AppModule {
   constructor() {
     console.log('🎯 AppModule inicializado com sucesso!');
-    console.log('✅ ForgeModule - Autodesk Forge');
-    console.log('✅ Models3dModule - Modelos 3D');
+    console.log('🌱 PlantasModule carregado');
   }
 }

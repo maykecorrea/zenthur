@@ -6,8 +6,14 @@ import { join } from 'path';
 import * as express from 'express';
 import * as fs from 'fs';
 
+// ✅ ADICIONAR LOG PARA VERIFICAR MÓDULOS
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  
+  // ✅ ADICIONAR ESTES LOGS SIMPLES:
+  console.log('🎯 Módulos carregados:');
+  console.log('  ✅ AppModule iniciado');
+  console.log('  ✅ Verificando PlantasModule...');
   
   // Configuração CORS
   app.enableCors({
@@ -49,9 +55,10 @@ async function bootstrap() {
   
   console.log(`🚀 Servidor NestJS rodando na porta ${port}`);
   console.log(`📡 API disponível em: http://localhost:${port}`);
-  console.log(`🔧 Endpoints de manutenção:`);
-  console.log(`   GET    http://localhost:${port}/api/manutencoes/test`);
+  console.log(`🔧 Endpoints principais:`);
+  console.log(`   GET    http://localhost:${port}/api/equipamentos`);
+  console.log(`   GET    http://localhost:${port}/api/plantas/test`);    // ✅ ADICIONAR
+  console.log(`   POST   http://localhost:${port}/api/plantas`);         // ✅ ADICIONAR
   console.log(`   GET    http://localhost:${port}/api/manutencoes`);
-  console.log(`   POST   http://localhost:${port}/api/manutencoes`);
 }
 bootstrap();

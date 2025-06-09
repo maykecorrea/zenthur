@@ -156,6 +156,13 @@
                     <span class="text-xs">Nova Manutenção</span>
                   </div>
                 </NuxtLink>
+                
+                <!-- ⭐ NOVO ITEM: MANUTENÇÃO PREVENTIVA -->
+                <NuxtLink to="/manupreve" class="block">
+                  <div :class="submenuItemClass('/manupreve')">
+                    <span class="text-xs">Manutenção Preventiva</span>
+                  </div>
+                </NuxtLink>
               </div>
             </Transition>
           </div>
