@@ -5,14 +5,14 @@ WORKDIR /app
 # Instalar dependências do sistema
 RUN apk add --no-cache python3 make g++ openssl
 
-# Copiar arquivos de configuração primeiro (para cache do Docker)
+# Copiar package.json files
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 COPY frontend/package*.json ./frontend/
 COPY aps-simple-viewer-nodejs-develop/package*.json ./aps-simple-viewer-nodejs-develop/
 
-# Instalar dependências raiz (concurrently e rimraf)
-RUN npm install --only=dev
+# Instalar dependências globais
+RUN npm install --production=false
 
 # Copiar código fonte
 COPY backend/ ./backend/
@@ -21,23 +21,18 @@ COPY aps-simple-viewer-nodejs-develop/ ./aps-simple-viewer-nodejs-develop/
 
 # Instalar dependências de cada projeto
 WORKDIR /app/backend
-RUN npm install
+RUN npm install --legacy-peer-deps --force
 
 WORKDIR /app/frontend
-RUN npm install
+RUN npm install --legacy-peer-deps --force
 
 WORKDIR /app/aps-simple-viewer-nodejs-develop
-RUN npm install
+RUN npm install --legacy-peer-deps --force
 
-# Gerar Prisma Client
-WORKDIR /app/backend
-RUN npx prisma generate
+# Configurar porta
+EXPOSE 3000
 
-# Voltar para raiz
+# Voltar para diretório principal
 WORKDIR /app
 
-# Expor portas
-EXPOSE 3000 5000 8080
-
-# Comando para iniciar todos os serviços
 CMD ["npm", "start"]
