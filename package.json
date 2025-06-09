@@ -3,7 +3,7 @@
   "name": "zenthur-projeto-completo",
   "version": "3.0.0",
   "description": "Sistema Zenthur completo: Backend híbrido + Frontend Nuxt3 + APS Viewer",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "concurrently --prefix-colors \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" --names \"🔧APS,⚡Backend,🌐Frontend\" \"npm run dev:aps\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:aps": "cd aps-simple-viewer-nodejs-develop && npm start",
