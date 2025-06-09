@@ -19,14 +19,14 @@ COPY aps-simple-viewer-nodejs-develop/ ./aps-simple-viewer-nodejs-develop/
 # Instalar todas as dependências
 RUN npm run install:all
 
-# Gerar Prisma Client (se o backend tiver)
+# Gerar Prisma Client
 RUN cd backend && npx prisma generate || echo "Prisma não encontrado, continuando..."
 
 # Build do projeto
 RUN npm run build
 
-# Expor portas necessárias
-EXPOSE 3000 3001 3002
+# PORTAS CORRETAS
+EXPOSE 3000 3001 8080
 
 # Script de start
 CMD ["npm", "run", "dev"]
