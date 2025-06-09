@@ -1,32 +1,43 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
 # Instalar dependências do sistema
 RUN apk add --no-cache python3 make g++ openssl
 
-# Copiar package.json da raiz
+# Copiar arquivos de configuração primeiro (para cache do Docker)
 COPY package*.json ./
+COPY backend/package*.json ./backend/
+COPY frontend/package*.json ./frontend/
+COPY aps-simple-viewer-nodejs-develop/package*.json ./aps-simple-viewer-nodejs-develop/
 
-# Instalar dependências da raiz
-RUN npm install
+# Instalar dependências raiz (concurrently e rimraf)
+RUN npm install --only=dev
 
-# Copiar código de todos os workspaces
+# Copiar código fonte
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 COPY aps-simple-viewer-nodejs-develop/ ./aps-simple-viewer-nodejs-develop/
 
-# Instalar todas as dependências
-RUN npm run install:all
+# Instalar dependências de cada projeto
+WORKDIR /app/backend
+RUN npm install
+
+WORKDIR /app/frontend
+RUN npm install
+
+WORKDIR /app/aps-simple-viewer-nodejs-develop
+RUN npm install
 
 # Gerar Prisma Client
-RUN cd backend && npx prisma generate || echo "Prisma não encontrado, continuando..."
+WORKDIR /app/backend
+RUN npx prisma generate
 
-# Build do projeto
-RUN npm run build
+# Voltar para raiz
+WORKDIR /app
 
-# PORTAS CORRETAS
-EXPOSE 3000 3001 8080
+# Expor portas
+EXPOSE 3000 5000 8080
 
-# Script de start
-CMD ["npm", "run", "dev"]
+# Comando para iniciar todos os serviços
+CMD ["npm", "start"]

@@ -10,30 +10,22 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "start": "npm run dev",
-    "install:all": "npm install && cd backend && npm install && cd frontend && npm install && cd aps-simple-viewer-nodejs-develop && npm install",
     "clean:all": "rimraf node_modules backend/node_modules frontend/node_modules aps-simple-viewer-nodejs-develop/node_modules",
     "build": "cd frontend && npm run build && cd ../backend && npm run build",
     "preview": "cd frontend && npm run preview",
     "prisma:generate": "cd backend && npm run prisma:generate",
     "prisma:studio": "cd backend && npm run prisma:studio",
-    "prisma:migrate": "cd backend && npm run prisma:migrate",
-    "test": "cd backend && npm run test",
-    "test:frontend": "cd frontend && npm run test"
+    "prisma:migrate": "cd backend && npm run prisma:migrate"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "rimraf": "^5.0.5"
   },
-  "workspaces": [
-    "backend",
-    "frontend",
-    "aps-simple-viewer-nodejs-develop"
-  ],
   "keywords": [
     "zenthur",
     "monorepo",
     "maintenance-system",
-    "equipment-management",
+    "equipment-management", 
     "aps-viewer",
     "autodesk-forge",
     "nuxt3",
@@ -43,10 +35,10 @@
     "vue3",
     "tailwindcss"
   ],
-  "author": "Zenthur Team",
+  "author": "Mayke Correa",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.8.1"
   }
 }
