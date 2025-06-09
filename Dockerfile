@@ -8,6 +8,9 @@ RUN apk add --no-cache python3 make g++ openssl nginx
 # Instalar PM2 globalmente
 RUN npm install -g pm2
 
+# Criar diretório de logs
+RUN mkdir -p /app/logs
+
 # Copiar arquivos de configuração
 COPY package*.json ./
 COPY backend/package*.json ./backend/
@@ -40,8 +43,12 @@ WORKDIR /app
 # Configurar nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Script de startup
+COPY startup.sh /app/startup.sh
+RUN chmod +x /app/startup.sh
+
 # Expor apenas porta principal
 EXPOSE 3000
 
-# Rodar PM2 + Nginx
-CMD ["sh", "-c", "nginx && pm2-runtime start ecosystem.config.js"]
+# Usar script de startup
+CMD ["/app/startup.sh"]
