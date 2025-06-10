@@ -26,12 +26,16 @@ COPY . .
 # Backend - instalar + gerar Prisma
 WORKDIR /app/backend
 RUN npm install --legacy-peer-deps --force
-RUN npx prisma generate || echo "Prisma generation failed"
+RUN npx prisma generate
 
-# Frontend - instalar + build
+# Frontend - LIMPAR CACHE + BUILD LIMPO
 WORKDIR /app/frontend
 RUN npm install --legacy-peer-deps --force
-RUN npm run build || echo "Frontend build failed"
+RUN rm -rf .nuxt .output node_modules/.cache
+RUN npm run build
+
+# Verificar se build foi bem-sucedido
+RUN test -f .output/server/index.mjs || (echo "ERROR: Frontend build failed - .output/server/index.mjs not found" && exit 1)
 
 # APS - instalar
 WORKDIR /app/aps-simple-viewer-nodejs-develop

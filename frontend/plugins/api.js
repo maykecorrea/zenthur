@@ -1,44 +1,48 @@
-import axios from 'axios'
 import { defineNuxtPlugin } from '#app'
 
-export default defineNuxtPlugin((nuxtApp) => {
-  // Garanta que axios está importado corretamente
-  const api = axios.create({
-    baseURL: 'http://localhost:3001/api',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
   
-  // Interceptor para adicionar o token de autenticação em cada requisição
-  api.interceptors.request.use(config => {
-    // Usa o cliente apenas no navegador
-    if (process.client) {
-      const token = localStorage.getItem('auth_token')
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+  const api = {
+    baseURL: config.public.apiBase || 'http://localhost:3002',
+    
+    async request(method, url, options = {}) {
+      const fullUrl = url.startsWith('http') ? url : `${this.baseURL}${url}`
+      
+      try {
+        return await $fetch(fullUrl, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+          },
+          ...options
+        })
+      } catch (error) {
+        throw error
       }
-    }
-    return config
-  })
-  
-  // Utilize a instância api em vez do axios global
-  api.interceptors.response.use(
-    response => {
-      console.log(`✅ API ${response.config.method} ${response.config.url}: sucesso`);
-      return response;
     },
-    error => {
-      console.error(`❌ API Error:`, error);
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem('auth_token');
-        // Use nuxtApp para navegação segura
-        nuxtApp.$router.push('/login');
-      }
-      return Promise.reject(error);
+    
+    async get(url, options = {}) {
+      return this.request('GET', url, options)
+    },
+    
+    async post(url, data = {}, options = {}) {
+      return this.request('POST', url, { body: data, ...options })
+    },
+    
+    async put(url, data = {}, options = {}) {
+      return this.request('PUT', url, { body: data, ...options })
+    },
+    
+    async delete(url, options = {}) {
+      return this.request('DELETE', url, options)
     }
-  );
-  
-  // Fornece a instância api para a aplicação
-  nuxtApp.provide('api', api)
+  }
+
+  return {
+    provide: {
+      api
+    }
+  }
 })

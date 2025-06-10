@@ -20,8 +20,7 @@ module.exports = {
     {
       name: 'frontend',
       cwd: './frontend',
-      script: 'node',
-      args: '.output/server/index.mjs',
+      script: '.output/server/index.mjs',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -29,7 +28,9 @@ module.exports = {
       env: {
         PORT: 3001,
         HOST: '0.0.0.0',
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        NITRO_PORT: 3001,
+        NITRO_HOST: '0.0.0.0'
       },
       error_file: './logs/frontend-err.log',
       out_file: './logs/frontend-out.log',
@@ -46,7 +47,10 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         PORT: 8080,
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        APS_CLIENT_ID: 'ikAxu2kojFkJZJyfVNyeuyA4ZSUdjiSYcgshGsOqKun0CXK8',
+        APS_CLIENT_SECRET: 'ptAKyk2xjQzSNbtOgWcWiRhiQQKp9OrJlQ3rNlMKYqkCkAJeGkyOd9fEU0RBTebC',
+        APS_BUCKET: 'zenthur-test-models'
       },
       error_file: './logs/aps-err.log',
       out_file: './logs/aps-out.log',
