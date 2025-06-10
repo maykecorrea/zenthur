@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt'
   ],
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/tailwind.css'], // ✅ MANTER NOME ORIGINAL
   ssr: true,
   nitro: {
     preset: 'node-server'
