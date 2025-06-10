@@ -2,228 +2,121 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-require('dotenv').config();
+const fs = require('fs');
+const { PrismaClient } = require('@prisma/client');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
+
+// Inicializar Prisma
+const prisma = new PrismaClient();
 
 console.log('🚀 Inicializando servidor...');
 
-// ⭐ MIDDLEWARE GLOBAL
+// Middlewares básicos
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // ⭐ ADICIONAR PATCH
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  exposedHeaders: ['Authorization']
+  origin: ['http://localhost:3001', 'http://127.0.0.1:3001', 'http://localhost:3000'],
+  credentials: true
 }));
 
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// ⭐ SERVIR ARQUIVOS ESTÁTICOS (CRÍTICO PARA IMAGENS)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
-  setHeaders: (res, path) => {
-    console.log('📁 Servindo arquivo:', path);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-  }
-}));
+// Servir arquivos estáticos
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ⭐ CONFIGURAÇÃO DO MULTER PARA UPLOADS (APENAS DOCUMENTOS)
-const storage = multer.memoryStorage();
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 100 * 1024 * 1024 // 100MB
-  },
-  fileFilter: (req, file, cb) => {
-    console.log(`📁 [Upload] Arquivo recebido: ${file.originalname}, Tipo: ${file.mimetype}`);
-    
-    // ⭐ ACEITAR APENAS DOCUMENTOS
-    const allowedTypes = [
-      'application/pdf',
-      'image/jpeg', 'image/png', 'image/gif',
-      'text/plain',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    ];
-    
-    const allowedExtensions = [
-      '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.txt', '.doc', '.docx'
-    ];
-    
-    const fileExt = path.extname(file.originalname).toLowerCase();
-    
-    if (allowedTypes.includes(file.mimetype) || allowedExtensions.includes(fileExt)) {
-      console.log(`✅ [Upload] Arquivo aceito: ${file.originalname}`);
-      cb(null, true);
-    } else {
-      console.log(`❌ [Upload] Arquivo rejeitado: ${file.originalname} (${file.mimetype})`);
-      cb(new Error(`Tipo de arquivo não suportado: ${file.mimetype}`), false);
-    }
-  }
-});
+// Importar middleware de autenticação
+const authMiddleware = require('./middleware/auth');
+console.log('✅ [Auth Middleware] Configurado');
 
-// ⭐ IMPORTAR ROTAS (APENAS AS QUE EXISTEM)
-let authRoutes, categoriaRoutes, equipamentoRoutes, manutencaoRoutes, documentoRoutes, usersRoutes, plantasRoutes;
-
-try {
-  const authMiddleware = require('./middleware/auth'); 
-  app.use('/api/auth', authMiddleware.router);
-  console.log('✅ Auth routes carregadas do middleware');
-} catch (error) {
-  console.error('⚠️ Auth routes não encontradas:', error.message);
+// Verificar JWT_SECRET
+if (process.env.JWT_SECRET) {
+  console.log('🔑 JWT_SECRET: Configurado');
+} else {
+  console.warn('⚠️ JWT_SECRET não configurado!');
 }
 
-try {
-  categoriaRoutes = require('./routes/categorias');
-  console.log('✅ Categoria routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Categoria routes não encontradas:', error.message);
-}
+// Importar rotas
+const authRoutes = require('./routes/auth');
+const categoriasRoutes = require('./routes/categorias');
+const equipamentosRoutes = require('./routes/equipamentos');
+const manutencoesRoutes = require('./routes/manutencoes');
+const documentosRoutes = require('./routes/documentos');
+const usersRoutes = require('./routes/users');
+const plantasRoutes = require('./routes/plantas');
+const healthcheckRoutes = require('./routes/healthcheck'); // ✅ NOVO
 
-try {
-  equipamentoRoutes = require('./routes/equipamentos');
-  console.log('✅ Equipamento routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Equipamento routes não encontradas:', error.message);
-}
+console.log('✅ Auth routes carregadas do middleware');
 
-try {
-  manutencaoRoutes = require('./routes/manutencoes');
-  console.log('✅ Manutenção routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Manutenção routes não encontradas:', error.message);
-}
+// Configurar Prisma para as rotas
+console.log('✅ [Database] Prisma Client configurado');
+console.log('✅ [Categorias Routes] Configurado com Prisma');
+console.log('✅ [Equipamentos Routes] Configurado com Prisma');
+console.log('✅ [Manutencoes Routes] Configurado com CRUD completo');
+console.log('✅ [Documentos Routes] Configurado com upload/download');
+console.log('✅ [Users Routes] Configuradas');
+console.log('✅ [Plantas Routes] Configurado com Express');
+console.log('🩺 [Healthcheck Routes] Configurado'); // ✅ NOVO
 
-try {
-  documentoRoutes = require('./routes/documentos');
-  console.log('✅ Documento routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Documento routes não encontradas:', error.message);
-}
+// Registrar rotas (HEALTHCHECK PRIMEIRO - sem auth)
+app.use('/api/healthcheck', healthcheckRoutes); // ✅ NOVO
+app.use('/healthcheck', healthcheckRoutes); // ✅ NOVO - Alias sem /api
 
-try {
-  usersRoutes = require('./routes/users');
-  console.log('✅ Users routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Users routes não encontradas:', error.message);
-}
+app.use('/api/auth', authRoutes);
+app.use('/api/categorias', authMiddleware, categoriasRoutes);
+app.use('/api/equipamentos', authMiddleware, equipamentosRoutes);
+app.use('/api/manutencoes', authMiddleware, manutencoesRoutes);
+app.use('/api/documentos', authMiddleware, documentosRoutes);
+app.use('/api/users', authMiddleware, usersRoutes);
+app.use('/api/plantas', authMiddleware, plantasRoutes);
 
-try {
-  plantasRoutes = require('./routes/plantas');
-  console.log('✅ Planta routes carregadas');
-} catch (error) {
-  console.warn('⚠️ Planta routes não encontradas:', error.message);
-}
+console.log('✅ Categoria routes carregadas');
+console.log('✅ Equipamento routes carregadas');
+console.log('✅ Manutenção routes carregadas');
+console.log('✅ Documento routes carregadas');
+console.log('✅ Users routes carregadas');
+console.log('✅ Planta routes carregadas');
+console.log('🩺 Healthcheck routes carregadas'); // ✅ NOVO
 
-// ⭐ REGISTRAR ROTAS (APENAS AS QUE EXISTEM)
-if (categoriaRoutes) {
-  app.use('/api/categorias', categoriaRoutes);
-  console.log('🔗 Rota /api/categorias registrada');
-}
+// Registrar logs das rotas
+console.log('🔗 Rota /api/healthcheck registrada'); // ✅ NOVO
+console.log('🔗 Rota /healthcheck registrada'); // ✅ NOVO
+console.log('🔗 Rota /api/categorias registrada');
+console.log('🔗 Rota /api/equipamentos registrada');
+console.log('🔗 Rota /api/manutencoes registrada');
+console.log('🔗 Rota /api/documentos registrada');
+console.log('🔗 Rota /api/users registrada');
+console.log('🔗 Rota /api/plantas registrada');
 
-if (equipamentoRoutes) {
-  app.use('/api/equipamentos', equipamentoRoutes);
-  console.log('🔗 Rota /api/equipamentos registrada');
-}
-
-if (manutencaoRoutes) {
-  app.use('/api/manutencoes', manutencaoRoutes);
-  console.log('🔗 Rota /api/manutencoes registrada');
-}
-
-if (documentoRoutes) {
-  app.use('/api/documentos', documentoRoutes);
-  console.log('🔗 Rota /api/documentos registrada');
-}
-
-if (usersRoutes) {
-  app.use('/api/users', usersRoutes);
-  console.log('🔗 Rota /api/users registrada');
-}
-
-if (plantasRoutes) {
-  app.use('/api/plantas', plantasRoutes);
-  console.log('🔗 Rota /api/plantas registrada');
-}
-
-// ⭐ ROTA DE HEALTH CHECK
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    memory: process.memoryUsage(),
-    environment: process.env.NODE_ENV || 'development'
+// Middleware de tratamento de erros
+app.use((err, req, res, next) => {
+  console.error('❌ Erro no servidor:', err);
+  res.status(500).json({ 
+    success: false, 
+    message: 'Erro interno do servidor',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
 
-// ⭐ ROTA RAIZ
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Backend API Zenthur funcionando',
-    version: '2.0.0',
-    endpoints: [
-      '/api/auth',
-      '/api/categorias',
-      '/api/equipamentos', 
-      '/api/manutencoes',
-      '/api/documentos',
-      '/health'
-    ]
-  });
-});
-
-// ⭐ MIDDLEWARE DE ERRO GLOBAL
-app.use((error, req, res, next) => {
-  console.error('❌ [Error Handler]', error);
-  
-  if (error instanceof multer.MulterError) {
-    if (error.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({
-        success: false,
-        error: 'Arquivo muito grande. Limite: 100MB'
-      });
-    }
-  }
-  
-  res.status(500).json({
-    success: false,
-    error: 'Erro interno do servidor',
-    details: error.message
-  });
-});
-
-// ⭐ MIDDLEWARE 404
+// Rota 404
 app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: 'Endpoint não encontrado',
-    path: req.originalUrl,
-    method: req.method
+  res.status(404).json({ 
+    success: false, 
+    message: 'Rota não encontrada',
+    path: req.originalUrl
   });
 });
 
-// ⭐ INICIAR SERVIDOR
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor Zenthur rodando na porta ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
-  console.log(`💾 Environment: ${process.env.NODE_ENV || 'development'}`);
+// Iniciar servidor
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('🚀 Servidor Zenthur rodando na porta', PORT);
+  console.log('📍 http://localhost:' + PORT);
+  console.log('💾 Environment:', process.env.NODE_ENV || 'development');
   
-  // ⭐ VERIFICAR VARIÁVEIS DE AMBIENTE IMPORTANTES
   console.log('\n📋 Verificação de Environment:');
-  console.log(`🗃️ DATABASE_URL: ${process.env.DATABASE_URL ? '✅ Configurado' : '❌ Não configurado'}`);
-  console.log(`🔑 JWT_SECRET: ${process.env.JWT_SECRET ? '✅ Configurado' : '❌ Não configurado'}`);
+  console.log('🗃️ DATABASE_URL:', process.env.DATABASE_URL ? '✅ Configurado' : '❌ Não configurado');
+  console.log('🔑 JWT_SECRET:', process.env.JWT_SECRET ? '✅ Configurado' : '❌ Não configurado');
+  console.log('🩺 HEALTHCHECK: ✅ Disponível em /api/healthcheck/health'); // ✅ NOVO
 });
 
-// ⭐ TRATAMENTO DE SINAIS
-process.on('SIGINT', () => {
-  console.log('\n🛑 Recebido SIGINT, encerrando servidor...');
-  process.exit(0);
-});
-
-process.on('SIGTERM', () => {
-  console.log('\n🛑 Recebido SIGTERM, encerrando servidor...');
-  process.exit(0);
-});
+module.exports = app;

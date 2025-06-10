@@ -2,8 +2,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Instalar dependências do sistema + nginx
-RUN apk add --no-cache python3 make g++ openssl nginx
+# Instalar dependências do sistema + nginx + curl
+RUN apk add --no-cache python3 make g++ openssl nginx curl
 
 # Instalar PM2 globalmente
 RUN npm install -g pm2
@@ -56,6 +56,10 @@ RUN chmod +x /app/startup.sh
 
 # Expor apenas porta principal
 EXPOSE 3000
+
+# ✅ ADICIONAR HEALTHCHECK
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
 # Usar script de startup
 CMD ["/app/startup.sh"]
