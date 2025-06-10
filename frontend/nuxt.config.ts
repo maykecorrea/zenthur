@@ -3,42 +3,29 @@ import { defineNuxtConfig } from 'nuxt/config'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  
-  css: ['~/assets/css/tailwind.css'],
-  
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
-  
   modules: [
+    '@nuxtjs/tailwindcss',
     '@pinia/nuxt'
   ],
-  
-  app: {
-    head: {
-      script: [
-        {
-          src: 'https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js',
-          defer: true
-        }
-      ],
-      link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css'
-        }
-      ]
+  css: ['~/assets/css/main.css'],
+  ssr: true,
+  nitro: {
+    preset: 'node-server'
+  },
+  build: {
+    transpile: ['vue-toastification']
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['vue-toastification']
     }
   },
-  
   runtimeConfig: {
     public: {
-      apiUrl: process.env.API_URL || 'http://localhost:3001'
+      // ✅ CORRIGIR URLs PARA PRODUÇÃO
+      apiBase: process.env.NODE_ENV === 'production' 
+        ? 'http://127.0.0.1:3002'  // URL interna do container
+        : 'http://localhost:3002'   // URL local de desenvolvimento
     }
-  },
-
-  ssr: true
+  }
 })

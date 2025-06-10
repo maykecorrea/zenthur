@@ -28,9 +28,12 @@ WORKDIR /app/backend
 RUN npm install --legacy-peer-deps --force
 RUN npx prisma generate
 
-# Frontend - LIMPAR CACHE + BUILD LIMPO
+# Frontend - BUILD COMPLETO COM VARIÁVEIS CORRETAS
 WORKDIR /app/frontend
 RUN npm install --legacy-peer-deps --force
+# ✅ DEFINIR VARIÁVEL DE AMBIENTE ANTES DO BUILD
+ENV NUXT_PUBLIC_API_BASE=http://127.0.0.1:3002
+ENV NODE_ENV=production
 RUN rm -rf .nuxt .output node_modules/.cache
 RUN npm run build
 

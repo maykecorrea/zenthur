@@ -10,7 +10,10 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         PORT: 3002,
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        // ✅ ADICIONAR VARIÁVEIS DE AMBIENTE
+        DATABASE_URL: 'file:./dev.db',
+        JWT_SECRET: 'your-secret-key-change-in-production'
       },
       error_file: './logs/backend-err.log',
       out_file: './logs/backend-out.log',
@@ -30,7 +33,9 @@ module.exports = {
         HOST: '0.0.0.0',
         NODE_ENV: 'production',
         NITRO_PORT: 3001,
-        NITRO_HOST: '0.0.0.0'
+        NITRO_HOST: '0.0.0.0',
+        // ✅ ADICIONAR URL DA API
+        NUXT_PUBLIC_API_BASE: 'http://127.0.0.1:3002'
       },
       error_file: './logs/frontend-err.log',
       out_file: './logs/frontend-out.log',
