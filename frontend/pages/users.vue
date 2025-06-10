@@ -444,7 +444,8 @@ const carregarUsuarios = async () => {
 
     console.log('🔑 Token encontrado:', adminToken.substring(0, 50) + '...');
 
-    const response = await fetch('http://localhost:3001/api/users', {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/api/users`, {
       method: 'GET',  // ⭐ EXPLICITAR MÉTODO
       headers: {
         'Authorization': `Bearer ${adminToken}`,
@@ -541,7 +542,8 @@ const salvarUsuario = async () => {
     if (usuarioEditando.value) {
       // Editar usuário existente
       console.log('✏️ Editando usuário:', usuarioEditando.value.id);
-      response = await fetch(`http://localhost:3001/api/users/${usuarioEditando.value.id}`, {
+      const config = useRuntimeConfig();
+      response = await fetch(`${config.public.apiBase}/api/users/${usuarioEditando.value.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${adminToken}`,
@@ -552,7 +554,8 @@ const salvarUsuario = async () => {
     } else {
       // Criar novo usuário
       console.log('➕ Criando novo usuário');
-      response = await fetch('http://localhost:3001/api/users', {
+      const config = useRuntimeConfig();
+      response = await fetch(`${config.public.apiBase}/api/users`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${adminToken}`,
@@ -605,7 +608,8 @@ const excluirUsuario = async () => {
 
     console.log('🗑️ Excluindo usuário:', usuarioParaExcluir.value.id);
     
-    const response = await fetch(`http://localhost:3001/api/users/${usuarioParaExcluir.value.id}`, {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/api/users/${usuarioParaExcluir.value.id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${adminToken}`,

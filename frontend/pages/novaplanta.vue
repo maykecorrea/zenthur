@@ -572,7 +572,8 @@ const salvarPlanta = async () => {
     }
     
     // ✅ CHAMAR API
-    const response = await $fetch('http://localhost:3001/api/plantas', {
+    const config = useRuntimeConfig();
+    const response = await $fetch(`${config.public.apiBase}/api/plantas`, {
       method: editMode.value ? 'PUT' : 'POST',
       headers: {
         'Authorization': `Bearer ${authStore.token}`
@@ -584,7 +585,7 @@ const salvarPlanta = async () => {
       // ✅ SALVAR MARCADORES SE EXISTIREM
       if (planta.marcadores.length > 0) {
         for (const marcador of planta.marcadores) {
-          await $fetch(`http://localhost:3001/api/plantas/${response.data.id}/marcadores`, {
+          await $fetch(`${config.public.apiBase}/api/plantas/${response.data.id}/marcadores`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${authStore.token}`,

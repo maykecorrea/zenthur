@@ -426,7 +426,8 @@ const diagnosticarDocumento = async (id) => {
     }
     
     // Recuperar documento novamente com novo fetch
-    const response = await fetch(`http://localhost:3001/documentos/${id}?_t=${Date.now()}`, {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/documentos/${id}?_t=${Date.now()}`, {
       headers: {
         'Cache-Control': 'no-cache',
         'Authorization': `Bearer ${localStorage.getItem('token')}`

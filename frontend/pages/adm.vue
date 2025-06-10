@@ -353,23 +353,27 @@ const loadStats = async () => {
     
     console.log('📊 Carregando estatísticas do dashboard...');
     
+    // ✅ CORREÇÃO: Usar runtime config
+    const config = useRuntimeConfig();
+    const baseURL = config.public.apiBase;
+    
     const headers = {
       'Authorization': `Bearer ${adminToken}`,
       'Content-Type': 'application/json'
     };
     
     const [usersRes, equipamentosRes, manutencoesRes] = await Promise.all([
-      fetch('http://localhost:3001/api/users', {
+      fetch(`${baseURL}/api/users`, {
         method: 'GET',
         headers
       }).catch(err => ({ ok: false, error: err })),
       
-      fetch('http://localhost:3001/api/equipamentos', {
+      fetch(`${baseURL}/api/equipamentos`, {
         method: 'GET',
         headers
       }).catch(err => ({ ok: false, error: err })),
       
-      fetch('http://localhost:3001/api/manutencoes', {
+      fetch(`${baseURL}/api/manutencoes`, {
         method: 'GET',
         headers
       }).catch(err => ({ ok: false, error: err }))

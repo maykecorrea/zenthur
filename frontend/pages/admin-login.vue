@@ -170,7 +170,9 @@ const handleLogin = async () => {
   try {
     console.log("Tentando login admin com:", email.value);
     
-    const response = await fetch('http://localhost:3001/api/auth/login', {
+    // ✅ CORREÇÃO: Usar runtime config
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

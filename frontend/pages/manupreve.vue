@@ -276,7 +276,8 @@ const fetchPreventivas = async () => {
     console.log('🔍 Carregando manutenções preventivas...');
     
     // ⭐ USAR FETCH NATIVO COM URL COMPLETA
-    const response = await fetch('http://localhost:3001/api/manutencoes', {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/api/manutencoes`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authStore.token}`,

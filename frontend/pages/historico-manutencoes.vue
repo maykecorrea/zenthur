@@ -326,7 +326,8 @@ import { ref, computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
-const API_URL = 'http://localhost:3001';
+const config = useRuntimeConfig();
+const API_URL = config.public.apiBase;
 
 // Estados
 const isLoading = ref(true);

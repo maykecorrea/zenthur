@@ -351,7 +351,8 @@ import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const API_URL = 'http://localhost:3001';
+const config = useRuntimeConfig();
+const API_URL = config.public.apiBase;
 
 // Variáveis reativas
 const manutencoes = ref([]);

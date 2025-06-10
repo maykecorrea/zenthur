@@ -468,7 +468,8 @@ const salvarManutencao = async () => {
     console.log('📤 Dados para envio:', dadosParaEnvio);
     
     // Fazer requisição
-    const response = await fetch('http://localhost:3001/api/manutencoes', {
+    const config = useRuntimeConfig();
+    const response = await fetch(`${config.public.apiBase}/api/manutencoes`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
