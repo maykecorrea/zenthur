@@ -30,10 +30,8 @@ RUN npx prisma generate
 
 # Frontend - INSTALAÇÃO COMPLETA
 WORKDIR /app/frontend
-# ✅ INSTALAR DEPENDÊNCIAS (incluindo tailwind do package.json)
-RUN npm install --legacy-peer-deps --force
-# ✅ INSTALAR DEPENDÊNCIAS ADICIONAIS SE NECESSÁRIO
-RUN npm install --save-dev tailwindcss autoprefixer postcss --legacy-peer-deps --force
+# ✅ INSTALAR DEPENDÊNCIAS COM devDependencies INCLUÍDAS
+RUN npm install --legacy-peer-deps --force --include=dev
 # ✅ DEFINIR VARIÁVEIS DE AMBIENTE ANTES DO BUILD
 ENV NUXT_PUBLIC_API_BASE=http://127.0.0.1:3002
 ENV NODE_ENV=production
