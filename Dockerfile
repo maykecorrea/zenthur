@@ -28,12 +28,16 @@ WORKDIR /app/backend
 RUN npm install --legacy-peer-deps --force
 RUN npx prisma generate
 
-# Frontend - BUILD COMPLETO COM VARIÁVEIS CORRETAS
+# Frontend - INSTALAÇÃO COMPLETA
 WORKDIR /app/frontend
+# ✅ INSTALAR DEPENDÊNCIAS (incluindo tailwind do package.json)
 RUN npm install --legacy-peer-deps --force
-# ✅ DEFINIR VARIÁVEL DE AMBIENTE ANTES DO BUILD
+# ✅ INSTALAR DEPENDÊNCIAS ADICIONAIS SE NECESSÁRIO
+RUN npm install --save-dev tailwindcss autoprefixer postcss --legacy-peer-deps --force
+# ✅ DEFINIR VARIÁVEIS DE AMBIENTE ANTES DO BUILD
 ENV NUXT_PUBLIC_API_BASE=http://127.0.0.1:3002
 ENV NODE_ENV=production
+# ✅ LIMPAR CACHE E BUILDAR
 RUN rm -rf .nuxt .output node_modules/.cache
 RUN npm run build
 
@@ -57,8 +61,8 @@ RUN chmod +x /app/startup.sh
 # Expor apenas porta principal
 EXPOSE 3000
 
-# ✅ ADICIONAR HEALTHCHECK
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+# ✅ HEALTHCHECK com tempo maior para inicialização
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
 # Usar script de startup
