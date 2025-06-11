@@ -95,8 +95,8 @@ RUN head -5 /app/startup.sh
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK CORRETO - usar wget que já está instalado
-HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+# ✅ HEALTHCHECK com TIMEOUT MAIOR - aplicações precisam de tempo para iniciar
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
   CMD wget --quiet --tries=1 --spider http://localhost:3000/healthcheck/ping || exit 1
 
 # Entrypoint
