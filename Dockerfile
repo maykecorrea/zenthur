@@ -23,6 +23,9 @@ RUN npm install --production=false
 # Copiar código fonte
 COPY . .
 
+# ✅ VERIFICAR SE STARTUP.SH EXISTE E TEM CONTEÚDO
+RUN ls -la /app/startup.sh && cat /app/startup.sh
+
 # Backend - instalar + gerar Prisma
 WORKDIR /app/backend
 RUN npm install --legacy-peer-deps --force
@@ -48,15 +51,17 @@ WORKDIR /app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN nginx -t
 
-# Script de startup
-COPY startup.sh /app/startup.sh
+# ✅ VERIFICAR NOVAMENTE STARTUP.SH E DAR PERMISSÕES
+RUN ls -la /app/ | grep startup
 RUN chmod +x /app/startup.sh
+RUN ls -la /app/startup.sh
 
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK SIMPLES E FUNCIONAL
+# ✅ HEALTHCHECK SIMPLES
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
   CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
+# ✅ USAR CAMINHO ABSOLUTO PARA GARANTIR
 CMD ["/app/startup.sh"]
