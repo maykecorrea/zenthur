@@ -2,8 +2,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# ✅ INSTALAR NGINX CORRETAMENTE COM DEPS
-RUN apk add --no-cache python3 make g++ openssl nginx curl netstat-nat
+# ✅ INSTALAR PACOTES CORRETOS PARA ALPINE
+RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools
 
 # Instalar PM2 globalmente
 RUN npm install -g pm2
@@ -55,7 +55,7 @@ RUN chmod +x /app/startup.sh
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK MELHORADO
+# ✅ HEALTHCHECK SIMPLES E FUNCIONAL
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
   CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 

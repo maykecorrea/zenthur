@@ -34,11 +34,11 @@ fi
 
 echo "✅ NGINX rodando corretamente"
 
-# ✅ TESTAR SE PORTA 3000 ESTÁ ESCUTANDO
+# ✅ TESTAR SE PORTA 3000 ESTÁ ESCUTANDO (usando net-tools)
 if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then
-    echo "⚠️ Porta 3000 não está escutando"
+    echo "⚠️ Porta 3000 não está escutando ainda"
     echo "📋 Portas ativas:"
-    netstat -tuln
+    netstat -tuln | head -10
 fi
 
 # ✅ INICIAR PM2 EM FOREGROUND
