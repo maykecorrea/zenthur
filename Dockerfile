@@ -2,16 +2,16 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# ✅ INSTALAR PACOTES CORRETOS PARA ALPINE
+# Instalar dependências do sistema
 RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools bash
 
 # Instalar PM2 globalmente
 RUN npm install -g pm2
 
-# ✅ CRIAR DIRETÓRIOS NGINX NECESSÁRIOS
+# Criar diretórios necessários
 RUN mkdir -p /app/logs /var/log/nginx /var/cache/nginx /var/lib/nginx /run/nginx
 
-# Copiar arquivos de configuração
+# Copiar arquivos de configuração primeiro
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 COPY frontend/package*.json ./frontend/
@@ -44,73 +44,66 @@ RUN npm install --legacy-peer-deps --force
 # Voltar para raiz
 WORKDIR /app
 
-# ✅ CONFIGURAR NGINX E TESTAR
+# Configurar nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN nginx -t
 
-# ✅ CRIAR STARTUP.SH DIRETAMENTE COM BASH CORRETO
-RUN cat > /app/startup.sh << 'EOF'
-#!/bin/bash
-set -e
+# Criar startup script usando printf (SEM heredoc)
+RUN printf '#!/bin/bash\n\
+set -e\n\
+\n\
+echo "🚀 Iniciando Zenthur System..."\n\
+\n\
+echo "🔧 Testando configuração do NGINX..."\n\
+nginx -t\n\
+if [ $? -ne 0 ]; then\n\
+    echo "❌ Erro na configuração do NGINX"\n\
+    exit 1\n\
+fi\n\
+\n\
+mkdir -p /var/log/nginx\n\
+mkdir -p /var/cache/nginx\n\
+mkdir -p /run/nginx\n\
+\n\
+echo "🌐 Iniciando NGINX..."\n\
+nginx -g "daemon off;" &\n\
+NGINX_PID=$!\n\
+echo "✅ NGINX iniciado (PID: $NGINX_PID)"\n\
+\n\
+sleep 5\n\
+\n\
+if ! pgrep nginx > /dev/null; then\n\
+    echo "❌ NGINX falhou ao iniciar"\n\
+    echo "📋 Logs do NGINX:"\n\
+    cat /var/log/nginx/error.log 2>/dev/null || echo "Nenhum log encontrado"\n\
+    exit 1\n\
+fi\n\
+\n\
+echo "✅ NGINX rodando corretamente"\n\
+\n\
+if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then\n\
+    echo "⚠️ Porta 3000 não está escutando ainda"\n\
+    echo "📋 Portas ativas:"\n\
+    netstat -tuln | head -10\n\
+fi\n\
+\n\
+echo "🚀 Iniciando aplicações com PM2..."\n\
+cd /app\n\
+exec pm2-runtime start ecosystem.config.js --env production\n' > /app/startup.sh
 
-echo "🚀 Iniciando Zenthur System..."
-
-# ✅ TESTAR NGINX PRIMEIRO
-echo "🔧 Testando configuração do NGINX..."
-nginx -t
-if [ $? -ne 0 ]; then
-    echo "❌ Erro na configuração do NGINX"
-    exit 1
-fi
-
-# ✅ CRIAR DIRETÓRIOS NECESSÁRIOS PARA NGINX
-mkdir -p /var/log/nginx
-mkdir -p /var/cache/nginx
-mkdir -p /run/nginx
-
-# ✅ INICIAR NGINX EM BACKGROUND COM PID
-echo "🌐 Iniciando NGINX..."
-nginx -g "daemon off;" &
-NGINX_PID=$!
-echo "✅ NGINX iniciado (PID: $NGINX_PID)"
-
-# ✅ AGUARDAR NGINX INICIALIZAR COMPLETAMENTE
-sleep 5
-
-# ✅ VERIFICAR SE NGINX ESTÁ REALMENTE RODANDO
-if ! pgrep nginx > /dev/null; then
-    echo "❌ NGINX falhou ao iniciar"
-    echo "📋 Logs do NGINX:"
-    cat /var/log/nginx/error.log 2>/dev/null || echo "Nenhum log encontrado"
-    exit 1
-fi
-
-echo "✅ NGINX rodando corretamente"
-
-# ✅ TESTAR SE PORTA 3000 ESTÁ ESCUTANDO (usando net-tools)
-if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then
-    echo "⚠️ Porta 3000 não está escutando ainda"
-    echo "📋 Portas ativas:"
-    netstat -tuln | head -10
-fi
-
-# ✅ INICIAR PM2 EM FOREGROUND
-echo "🚀 Iniciando aplicações com PM2..."
-cd /app
-exec pm2-runtime start ecosystem.config.js --env production
-EOF
-
-# ✅ TORNAR EXECUTÁVEL E VERIFICAR
+# Tornar executável
 RUN chmod +x /app/startup.sh
+
+# Verificar script
 RUN ls -la /app/startup.sh
 RUN head -5 /app/startup.sh
 
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK SIMPLES
+# Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
   CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
-# ✅ USAR ENTRYPOINT PARA FORÇAR EXECUÇÃO
+# Entrypoint
 ENTRYPOINT ["/bin/bash", "/app/startup.sh"]
