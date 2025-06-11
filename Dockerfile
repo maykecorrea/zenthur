@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Instalar dependências do sistema (conforme docs Alpine)
-RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools bash
+RUN apk add --no-cache python3 make g++ openssl nginx curl wget net-tools bash
 
 # Instalar PM2 globalmente (conforme docs PM2)
 RUN npm install -g pm2
@@ -48,49 +48,13 @@ WORKDIR /app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN nginx -t
 
-# Criar startup script (conforme Docker docs)
-RUN printf '#!/bin/bash\n\
-set -e\n\
-\n\
-echo "🚀 Iniciando Zenthur System..."\n\
-\n\
-echo "🔧 Testando configuração do NGINX..."\n\
-nginx -t\n\
-if [ $? -ne 0 ]; then\n\
-    echo "❌ Erro na configuração do NGINX"\n\
-    exit 1\n\
-fi\n\
-\n\
-mkdir -p /var/log/nginx\n\
-mkdir -p /var/cache/nginx\n\
-mkdir -p /run/nginx\n\
-\n\
-echo "🌐 Iniciando NGINX..."\n\
-nginx -g "daemon off;" &\n\
-NGINX_PID=$!\n\
-echo "✅ NGINX iniciado (PID: $NGINX_PID)"\n\
-\n\
-sleep 5\n\
-\n\
-if ! pgrep nginx > /dev/null; then\n\
-    echo "❌ NGINX falhou ao iniciar"\n\
-    echo "📋 Logs do NGINX:"\n\
-    cat /var/log/nginx/error.log 2>/dev/null || echo "Nenhum log encontrado"\n\
-    exit 1\n\
-fi\n\
-\n\
-echo "✅ NGINX rodando corretamente"\n\
-\n\
-echo "🚀 Iniciando aplicações com PM2..."\n\
-cd /app\n\
-exec pm2-runtime start ecosystem.config.js --env production\n' > /app/startup.sh
-
-# Tornar executável
+# ✅ COPIAR STARTUP.SH AO INVÉS DE CRIAR INLINE
+COPY startup.sh /app/startup.sh
 RUN chmod +x /app/startup.sh
 
 # Verificar script
 RUN ls -la /app/startup.sh
-RUN head -5 /app/startup.sh
+RUN head -10 /app/startup.sh
 
 # Expor porta
 EXPOSE 3000
