@@ -162,7 +162,6 @@ const password = ref('');
 const error = ref('');
 const loading = ref(false);
 
-// Função de login mantida igual
 const handleLogin = async () => {
   loading.value = true;
   error.value = '';
@@ -170,9 +169,19 @@ const handleLogin = async () => {
   try {
     console.log("Tentando login admin com:", email.value);
     
-    // ✅ CORREÇÃO: Usar runtime config
+    // ✅ CORREÇÃO: Usar URL relativa em produção
     const config = useRuntimeConfig();
-    const response = await fetch(`${config.public.apiBase}/api/auth/login`, {
+    let apiBase = config.public.apiBase;
+    
+    // Se vazio ou produção, usar URL relativa
+    if (!apiBase || apiBase === '' || process.env.NODE_ENV === 'production') {
+      apiBase = '';  // URL relativa
+    }
+    
+    const url = apiBase ? `${apiBase}/api/auth/login` : '/api/auth/login';
+    console.log('🔗 URL de login:', url);
+    
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -185,7 +194,6 @@ const handleLogin = async () => {
     
     const data = await response.json();
     console.log("Resposta do login admin:", data);
-    console.log("Estrutura completa da resposta:", JSON.stringify(data, null, 2));
     
     if (!response.ok) {
       throw new Error(data.message || 'Credenciais inválidas');
