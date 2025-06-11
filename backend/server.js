@@ -37,7 +37,7 @@ if (process.env.JWT_SECRET) {
 }
 
 // Importar rotas
-const authRoutes = require('./routes/auth');
+const { router: authRoutes } = require('./middleware/auth');
 const categoriasRoutes = require('./routes/categorias');
 const equipamentosRoutes = require('./routes/equipamentos');
 const manutencoesRoutes = require('./routes/manutencoes');
