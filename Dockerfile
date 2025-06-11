@@ -31,7 +31,7 @@ RUN npx prisma generate
 # Frontend - build
 WORKDIR /app/frontend
 RUN npm install --legacy-peer_deps --force --include=dev
-ENV NUXT_PUBLIC_API_BASE=http://127.0.0.1:3002
+# ✅ NÃO DEFINIR ENV NUXT_PUBLIC_API_BASE (usar padrão do nuxt.config.ts)
 ENV NODE_ENV=production
 RUN rm -rf .nuxt .output node_modules/.cache
 RUN npm run build

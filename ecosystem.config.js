@@ -9,9 +9,8 @@ module.exports = {
       watch: false,
       max_memory_restart: '1G',
       env: {
-        PORT: 3002,
+        PORT: 3002,  // ✅ MANTER 3002 (NGINX está configurado para isso)
         NODE_ENV: 'production',
-        // ✅ ADICIONAR VARIÁVEIS DE AMBIENTE
         DATABASE_URL: 'file:./dev.db',
         JWT_SECRET: 'your-secret-key-change-in-production'
       },
@@ -29,13 +28,12 @@ module.exports = {
       watch: false,
       max_memory_restart: '1G',
       env: {
-        PORT: 3001,
+        PORT: 3001,  // ✅ MANTER 3001 (NGINX está configurado para isso)
         HOST: '0.0.0.0',
         NODE_ENV: 'production',
         NITRO_PORT: 3001,
-        NITRO_HOST: '0.0.0.0',
-        // ✅ ADICIONAR URL DA API
-        NUXT_PUBLIC_API_BASE: 'http://127.0.0.1:3002'
+        NITRO_HOST: '0.0.0.0'
+        // ❌ NÃO DEFINIR NUXT_PUBLIC_API_BASE (usar padrão vazio)
       },
       error_file: './logs/frontend-err.log',
       out_file: './logs/frontend-out.log',
@@ -51,7 +49,7 @@ module.exports = {
       watch: false,
       max_memory_restart: '1G',
       env: {
-        PORT: 8080,
+        PORT: 8080,  // ✅ MANTER 8080
         NODE_ENV: 'production',
         APS_CLIENT_ID: 'ikAxu2kojFkJZJyfVNyeuyA4ZSUdjiSYcgshGsOqKun0CXK8',
         APS_CLIENT_SECRET: 'ptAKyk2xjQzSNbtOgWcWiRhiQQKp9OrJlQ3rNlMKYqkCkAJeGkyOd9fEU0RBTebC',

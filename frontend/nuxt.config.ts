@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt'
   ],
-  css: ['~/assets/css/tailwind.css'], // ✅ MANTER NOME ORIGINAL
-  ssr: true,
+  css: ['~/assets/css/tailwind.css'],
+  ssr: false, // ✅ DESABILITAR SSR para produção
   nitro: {
     preset: 'node-server'
   },
@@ -22,10 +22,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      // ✅ CORRIGIR URLs PARA PRODUÇÃO
+      // ✅ CORREÇÃO DEFINITIVA: URL RELATIVA EM PRODUÇÃO
       apiBase: process.env.NODE_ENV === 'production' 
-        ? 'http://127.0.0.1:3002'  // URL interna do container
-        : 'http://localhost:3002'   // URL local de desenvolvimento
+        ? ''  // ✅ URL RELATIVA - vai usar o mesmo domínio do browser
+        : 'http://localhost:3002'   // ✅ Desenvolvimento
     }
   }
 })
