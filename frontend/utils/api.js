@@ -1,11 +1,6 @@
 import { useAuthStore } from '~/stores/auth';
 
-// Usar a URL do runtime config
-const { $config } = useNuxtApp();
-const BASE_URL = $config.public.apiBase;
-
-console.log('🔗 API Base URL:', BASE_URL);
-
+// Usar apenas process.env para funcionar no build
 const API_BASE = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3002';
 
 const api = {
