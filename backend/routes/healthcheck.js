@@ -76,10 +76,10 @@ router.get('/health', async (req, res) => {
 
 // Healthcheck simples (apenas status)
 router.get('/ping', (req, res) => {
-  res.status(200).json({
-    status: 'ok',
+  res.json({ 
+    status: 'ok', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    service: 'zenthur-backend' 
   });
 });
 

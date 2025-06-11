@@ -44,7 +44,7 @@ const manutencoesRoutes = require('./routes/manutencoes');
 const documentosRoutes = require('./routes/documentos');
 const usersRoutes = require('./routes/users');
 const plantasRoutes = require('./routes/plantas');
-const healthcheckRoutes = require('./routes/healthcheck'); // ✅ NOVO
+const healthcheckRoutes = require('./routes/healthcheck');
 
 console.log('✅ Auth routes carregadas do middleware');
 

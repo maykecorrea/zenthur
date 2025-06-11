@@ -30,7 +30,7 @@ RUN npx prisma generate
 
 # Frontend - build
 WORKDIR /app/frontend
-RUN npm install --legacy-peer-deps --force --include=dev
+RUN npm install --legacy-peer_deps --force --include=dev
 ENV NUXT_PUBLIC_API_BASE=http://127.0.0.1:3002
 ENV NODE_ENV=production
 RUN rm -rf .nuxt .output node_modules/.cache
@@ -95,9 +95,9 @@ RUN head -5 /app/startup.sh
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK CORRETO (conforme docs Coolify)
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:3000/ || wget -q --spider http://localhost:3000/ || exit 1
+# ✅ HEALTHCHECK CORRETO para endpoint que existe
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+  CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
 # Entrypoint
 ENTRYPOINT ["/bin/bash", "/app/startup.sh"]

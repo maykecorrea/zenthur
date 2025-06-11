@@ -34,14 +34,29 @@ fi
 
 echo "✅ NGINX rodando corretamente"
 
-# ✅ TESTAR SE PORTA 3000 ESTÁ ESCUTANDO (usando net-tools)
-if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then
-    echo "⚠️ Porta 3000 não está escutando ainda"
-    echo "📋 Portas ativas:"
-    netstat -tuln | head -10
-fi
-
-# ✅ INICIAR PM2 EM FOREGROUND
+# ✅ INICIAR PM2 EM BACKGROUND E AGUARDAR
 echo "🚀 Iniciando aplicações com PM2..."
 cd /app
-exec pm2-runtime start ecosystem.config.js --env production
+pm2-runtime start ecosystem.config.js --env production &
+PM2_PID=$!
+
+# ✅ AGUARDAR APLICAÇÕES INICIAREM
+echo "⏳ Aguardando aplicações iniciarem..."
+sleep 20
+
+# ✅ VERIFICAR SE BACKEND ESTÁ RESPONDENDO
+echo "🔍 Testando backend..."
+for i in {1..10}; do
+    if curl -f http://127.0.0.1:3002/api/healthcheck/ping > /dev/null 2>&1; then
+        echo "✅ Backend respondendo na tentativa $i"
+        break
+    else
+        echo "⏳ Backend não responde - tentativa $i/10"
+        sleep 3
+    fi
+done
+
+echo "🎯 Sistema iniciado - aguardando requisições..."
+
+# ✅ MANTER PROCESSO PRINCIPAL VIVO
+wait $PM2_PID
