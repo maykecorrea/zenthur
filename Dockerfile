@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # ✅ INSTALAR PACOTES CORRETOS PARA ALPINE
-RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools
+RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools bash
 
 # Instalar PM2 globalmente
 RUN npm install -g pm2
@@ -22,9 +22,6 @@ RUN npm install --production=false
 
 # Copiar código fonte
 COPY . .
-
-# ✅ VERIFICAR SE STARTUP.SH EXISTE E TEM CONTEÚDO
-RUN ls -la /app/startup.sh && cat /app/startup.sh
 
 # Backend - instalar + gerar Prisma
 WORKDIR /app/backend
@@ -51,10 +48,62 @@ WORKDIR /app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN nginx -t
 
-# ✅ VERIFICAR NOVAMENTE STARTUP.SH E DAR PERMISSÕES
-RUN ls -la /app/ | grep startup
+# ✅ CRIAR STARTUP.SH DIRETAMENTE COM BASH CORRETO
+RUN cat > /app/startup.sh << 'EOF'
+#!/bin/bash
+set -e
+
+echo "🚀 Iniciando Zenthur System..."
+
+# ✅ TESTAR NGINX PRIMEIRO
+echo "🔧 Testando configuração do NGINX..."
+nginx -t
+if [ $? -ne 0 ]; then
+    echo "❌ Erro na configuração do NGINX"
+    exit 1
+fi
+
+# ✅ CRIAR DIRETÓRIOS NECESSÁRIOS PARA NGINX
+mkdir -p /var/log/nginx
+mkdir -p /var/cache/nginx
+mkdir -p /run/nginx
+
+# ✅ INICIAR NGINX EM BACKGROUND COM PID
+echo "🌐 Iniciando NGINX..."
+nginx -g "daemon off;" &
+NGINX_PID=$!
+echo "✅ NGINX iniciado (PID: $NGINX_PID)"
+
+# ✅ AGUARDAR NGINX INICIALIZAR COMPLETAMENTE
+sleep 5
+
+# ✅ VERIFICAR SE NGINX ESTÁ REALMENTE RODANDO
+if ! pgrep nginx > /dev/null; then
+    echo "❌ NGINX falhou ao iniciar"
+    echo "📋 Logs do NGINX:"
+    cat /var/log/nginx/error.log 2>/dev/null || echo "Nenhum log encontrado"
+    exit 1
+fi
+
+echo "✅ NGINX rodando corretamente"
+
+# ✅ TESTAR SE PORTA 3000 ESTÁ ESCUTANDO (usando net-tools)
+if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then
+    echo "⚠️ Porta 3000 não está escutando ainda"
+    echo "📋 Portas ativas:"
+    netstat -tuln | head -10
+fi
+
+# ✅ INICIAR PM2 EM FOREGROUND
+echo "🚀 Iniciando aplicações com PM2..."
+cd /app
+exec pm2-runtime start ecosystem.config.js --env production
+EOF
+
+# ✅ TORNAR EXECUTÁVEL E VERIFICAR
 RUN chmod +x /app/startup.sh
 RUN ls -la /app/startup.sh
+RUN head -5 /app/startup.sh
 
 # Expor porta
 EXPOSE 3000
@@ -63,5 +112,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
   CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
 
-# ✅ USAR CAMINHO ABSOLUTO PARA GARANTIR
-CMD ["/app/startup.sh"]
+# ✅ USAR ENTRYPOINT PARA FORÇAR EXECUÇÃO
+ENTRYPOINT ["/bin/bash", "/app/startup.sh"]
