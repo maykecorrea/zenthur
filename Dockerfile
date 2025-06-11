@@ -59,9 +59,9 @@ RUN head -10 /app/startup.sh
 # Expor porta
 EXPOSE 3000
 
-# ✅ HEALTHCHECK com TIMEOUT MAIOR - aplicações precisam de tempo para iniciar
-HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
-  CMD wget --quiet --tries=1 --spider http://localhost:3000/healthcheck/ping || exit 1
+# ✅ HEALTHCHECK AGUARDANDO MAIS TEMPO - apps precisam inicializar completamente
+HEALTHCHECK --interval=30s --timeout=15s --start-period=180s --retries=3 \
+  CMD curl -f http://localhost:3000/healthcheck/ping || wget --quiet --tries=1 --spider http://localhost:3000/healthcheck/ping || exit 1
 
 # Entrypoint
 ENTRYPOINT ["/bin/bash", "/app/startup.sh"]
