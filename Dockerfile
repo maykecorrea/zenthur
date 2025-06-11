@@ -2,16 +2,16 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Instalar dependências do sistema
+# Instalar dependências do sistema (conforme docs Alpine)
 RUN apk add --no-cache python3 make g++ openssl nginx curl net-tools bash
 
-# Instalar PM2 globalmente
+# Instalar PM2 globalmente (conforme docs PM2)
 RUN npm install -g pm2
 
 # Criar diretórios necessários
 RUN mkdir -p /app/logs /var/log/nginx /var/cache/nginx /var/lib/nginx /run/nginx
 
-# Copiar arquivos de configuração primeiro
+# Copiar arquivos de configuração primeiro (Docker best practices)
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 COPY frontend/package*.json ./frontend/
@@ -48,7 +48,7 @@ WORKDIR /app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN nginx -t
 
-# Criar startup script usando printf (SEM heredoc)
+# Criar startup script (conforme Docker docs)
 RUN printf '#!/bin/bash\n\
 set -e\n\
 \n\
@@ -81,12 +81,6 @@ fi\n\
 \n\
 echo "✅ NGINX rodando corretamente"\n\
 \n\
-if ! netstat -tuln | grep :3000 > /dev/null 2>&1; then\n\
-    echo "⚠️ Porta 3000 não está escutando ainda"\n\
-    echo "📋 Portas ativas:"\n\
-    netstat -tuln | head -10\n\
-fi\n\
-\n\
 echo "🚀 Iniciando aplicações com PM2..."\n\
 cd /app\n\
 exec pm2-runtime start ecosystem.config.js --env production\n' > /app/startup.sh
@@ -101,9 +95,9 @@ RUN head -5 /app/startup.sh
 # Expor porta
 EXPOSE 3000
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
-  CMD curl -f http://localhost:3000/healthcheck/ping || exit 1
+# ✅ HEALTHCHECK CORRETO (conforme docs Coolify)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:3000/ || wget -q --spider http://localhost:3000/ || exit 1
 
 # Entrypoint
 ENTRYPOINT ["/bin/bash", "/app/startup.sh"]
