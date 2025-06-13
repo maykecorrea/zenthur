@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
@@ -64,13 +65,49 @@ async function main() {
   console.log('✅ Equipamento de exemplo criado:', equipamento.nome)
 
   console.log('🎉 Seed concluído com sucesso!')
+=======
+import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  // Usar o mesmo algoritmo de hash que sua aplicação usa (bcrypt)
+  const hashedPassword = await bcrypt.hash('coisalinda', 10);
+  
+  // Criação do usuário admin
+  const admin = await prisma.user.upsert({
+    where: { email: 'mayke@gmail.com' },
+    update: {},
+    create: {
+      email: 'mayke@gmail.com',
+      nome: 'Administrador',
+      password: hashedPassword, // AQUI está a correção - usar o hash, não o texto da senha
+      role: 'admin',
+      empresa: 'Sua Empresa',
+      telefone: '(00) 0000-0000'
+    },
+  });
+  
+  
+  console.log({ admin });
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 }
 
 main()
   .catch((e) => {
+<<<<<<< HEAD
     console.error('❌ Erro no seed:', e)
     process.exit(1)
   })
   .finally(async () => {
     await prisma.$disconnect()
   })
+=======
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

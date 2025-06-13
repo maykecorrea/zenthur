@@ -225,9 +225,15 @@
                   <a 
                     v-if="getdocumenturl(doc)" 
                     :href="getdocumenturl(doc)" 
+<<<<<<< HEAD
                     download target="_blank" 
                     class="text-blue-600 hover:text-blue-900" 
                     title="Baixar"
+=======
+                    target="_blank" 
+                    class="text-blue-600 hover:text-blue-900" 
+                    title="Visualizar"
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                     @click.stop>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -323,9 +329,15 @@
               <a 
                 v-if="getdocumenturl(doc)" 
                 :href="getdocumenturl(doc)" 
+<<<<<<< HEAD
                 download target="_blank" 
                 class="p-1.5 text-blue-600 hover:text-blue-900 bg-blue-50 rounded-full" 
                 title="Baixar"
+=======
+                target="_blank" 
+                class="p-1.5 text-blue-600 hover:text-blue-900 bg-blue-50 rounded-full" 
+                title="Visualizar"
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                 @click.stop>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -553,13 +565,21 @@
                   <a 
                     v-if="getdocumenturl(selecteddoc)" 
                     :href="getdocumenturl(selecteddoc)" 
+<<<<<<< HEAD
                     download target="_blank" 
+=======
+                    target="_blank" 
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                     class="flex-grow sm:flex-grow-0 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
                     <svg class="mr-2 h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
+<<<<<<< HEAD
                     <span class="sm:inline">Baixar PDF</span>
+=======
+                    <span class="sm:inline">Visualizar PDF</span>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                   </a>
                   
                   <NuxtLink 
@@ -1098,17 +1118,29 @@ const getdocumenturl = (doc) => {
   
   // Verificar se tem arquivo PDF
   if (doc.pdfFileName) {
+<<<<<<< HEAD
     return `https://msgs4k8owowgwo4w4oc4400w.145.223.93.225.sslip.io/uploads/documentos/${doc.pdfFileName}`;
+=======
+    return `http://localhost:3001/uploads/documentos/${doc.pdfFileName}`;
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   }
   
   // Verificar se tem arquivo original
   if (doc.fileName) {
+<<<<<<< HEAD
     return `https://msgs4k8owowgwo4w4oc4400w.145.223.93.225.sslip.io/uploads/documentos/${doc.fileName}`;
+=======
+    return `http://localhost:3001/uploads/documentos/${doc.fileName}`;
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   }
   
   // Verificar se tem o campo arquivo (nome do arquivo no servidor)
   if (doc.arquivo) {
+<<<<<<< HEAD
     return `https://msgs4k8owowgwo4w4oc4400w.145.223.93.225.sslip.io/uploads/documentos/${doc.arquivo}`;
+=======
+    return `http://localhost:3001/uploads/documentos/${doc.arquivo}`;
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   }
   
   return null;
@@ -1157,7 +1189,11 @@ const loadDocumentsForced = async () => {
   try {
     // Adicionar timestamp + random para evitar cache em todos os níveis
     const nocache = `${Date.now()}-${Math.random()}`;
+<<<<<<< HEAD
     const response = await fetch(`${process.env.API_URL || 'https://msgs4k8owowgwo4w4oc4400w.145.223.93.225.sslip.io'}/documentos?_nocache=${nocache}`, {
+=======
+    const response = await fetch(`${process.env.API_URL || 'http://localhost:3001'}/documentos?_nocache=${nocache}`, {
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -1193,7 +1229,11 @@ const loadEquipamentosForced = async () => {
   try {
     // Implementação similar à função loadDocumentsForced
     const nocache = `${Date.now()}-${Math.random()}`;
+<<<<<<< HEAD
     const response = await fetch(`${process.env.API_URL || 'https://msgs4k8owowgwo4w4oc4400w.145.223.93.225.sslip.io'}/equipamentos?_nocache=${nocache}`, {
+=======
+    const response = await fetch(`${process.env.API_URL || 'http://localhost:3001'}/equipamentos?_nocache=${nocache}`, {
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

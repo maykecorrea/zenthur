@@ -8,7 +8,11 @@
           <div class="flex items-center space-x-4">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<<<<<<< HEAD
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+=======
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </svg>
             </div>
             <div>
@@ -24,7 +28,11 @@
             <!-- Notifications -->
             <button class="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<<<<<<< HEAD
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
+=======
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 00-15 0v5h5l-5 5-5-5h5V7a10 10 0 0120 0v10z"></path>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </svg>
               <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
             </button>
@@ -32,11 +40,21 @@
             <!-- User Menu -->
             <div class="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
               <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+<<<<<<< HEAD
                 <span class="text-white text-xs font-bold">{{ adminUser?.nome?.charAt(0) || 'A' }}</span>
               </div>
               <div class="text-sm">
                 <p class="font-semibold text-gray-900">{{ adminUser?.nome || 'Admin' }}</p>
                 <p class="text-gray-500 text-xs">{{ adminUser?.email || 'admin@sistema.com' }}</p>
+=======
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+              </div>
+              <div class="text-sm">
+                <p class="font-semibold text-gray-900">{{ adminUser?.email || 'Admin' }}</p>
+                <p class="text-gray-500">Administrador</p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </div>
 
@@ -62,7 +80,18 @@
             <div>
               <p class="text-sm font-medium text-gray-600 mb-1">Total de Usuários</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalUsers || 0 }}</p>
+<<<<<<< HEAD
               <p class="text-xs text-green-600 font-medium mt-1">+12% este mês</p>
+=======
+              <p class="text-xs text-green-600 font-medium mt-1">
+                <span class="inline-flex items-center">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                  </svg>
+                  +12% este mês
+                </span>
+              </p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
             </div>
             <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,11 +107,26 @@
             <div>
               <p class="text-sm font-medium text-gray-600 mb-1">Equipamentos</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.totalEquipamentos || 0 }}</p>
+<<<<<<< HEAD
               <p class="text-xs text-blue-600 font-medium mt-1">+8% este mês</p>
             </div>
             <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+=======
+              <p class="text-xs text-blue-600 font-medium mt-1">
+                <span class="inline-flex items-center">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                  </svg>
+                  Ativos no sistema
+                </span>
+              </p>
+            </div>
+            <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </svg>
             </div>
           </div>
@@ -94,7 +138,18 @@
             <div>
               <p class="text-sm font-medium text-gray-600 mb-1">Manutenções Ativas</p>
               <p class="text-3xl font-bold text-gray-900">{{ stats.manutencoesAtivas || 0 }}</p>
+<<<<<<< HEAD
               <p class="text-xs text-orange-600 font-medium mt-1">5 críticas</p>
+=======
+              <p class="text-xs text-orange-600 font-medium mt-1">
+                <span class="inline-flex items-center">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  Em andamento
+                </span>
+              </p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
             </div>
             <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,8 +165,18 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-gray-600 mb-1">Status do Sistema</p>
+<<<<<<< HEAD
               <p class="text-3xl font-bold text-gray-900">{{ stats.systemHealth || 99.9 }}%</p>
               <p class="text-xs text-green-600 font-medium mt-1">Operacional</p>
+=======
+              <p class="text-3xl font-bold text-green-600">99.9%</p>
+              <p class="text-xs text-green-600 font-medium mt-1">
+                <span class="inline-flex items-center">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                  Operacional
+                </span>
+              </p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
             </div>
             <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,6 +202,7 @@
           
           <div class="grid grid-cols-2 gap-4">
             <button @click="navigateTo('/users')" class="group p-4 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-2xl transition-all duration-300 transform hover:scale-105">
+<<<<<<< HEAD
               <div class="flex flex-col items-center space-y-2">
                 <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,10 +210,20 @@
                   </svg>
                 </div>
                 <span class="text-sm font-semibold text-gray-800">Usuários</span>
+=======
+              <div class="flex flex-col items-center space-y-3">
+                <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                  </svg>
+                </div>
+                <span class="text-sm font-semibold text-gray-700">Gerenciar Usuários</span>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </button>
 
             <button @click="navigateTo('/equipamentos')" class="group p-4 bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-2xl transition-all duration-300 transform hover:scale-105">
+<<<<<<< HEAD
               <div class="flex flex-col items-center space-y-2">
                 <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,22 +231,42 @@
                   </svg>
                 </div>
                 <span class="text-sm font-semibold text-gray-800">Equipamentos</span>
+=======
+              <div class="flex flex-col items-center space-y-3">
+                <div class="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                  </svg>
+                </div>
+                <span class="text-sm font-semibold text-gray-700">Equipamentos</span>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </button>
 
             <button @click="navigateTo('/manutencao')" class="group p-4 bg-gradient-to-br from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-200 rounded-2xl transition-all duration-300 transform hover:scale-105">
+<<<<<<< HEAD
               <div class="flex flex-col items-center space-y-2">
                 <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
+              <div class="flex flex-col items-center space-y-3">
+                <div class="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
                 </div>
+<<<<<<< HEAD
                 <span class="text-sm font-semibold text-gray-800">Manutenção</span>
+=======
+                <span class="text-sm font-semibold text-gray-700">Manutenções</span>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </button>
 
             <button @click="navigateTo('/relatorios')" class="group p-4 bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-2xl transition-all duration-300 transform hover:scale-105">
+<<<<<<< HEAD
               <div class="flex flex-col items-center space-y-2">
                 <div class="w-10 h-10 bg-purple-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,6 +274,15 @@
                   </svg>
                 </div>
                 <span class="text-sm font-semibold text-gray-800">Relatórios</span>
+=======
+              <div class="flex flex-col items-center space-y-3">
+                <div class="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                </div>
+                <span class="text-sm font-semibold text-gray-700">Relatórios</span>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </button>
           </div>
@@ -196,6 +301,7 @@
           
           <div class="space-y-4">
             <div class="flex items-center space-x-4 p-4 bg-blue-50/50 rounded-2xl">
+<<<<<<< HEAD
               <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -204,30 +310,60 @@
               <div class="flex-1">
                 <p class="text-sm font-semibold text-gray-800">Novo usuário cadastrado</p>
                 <p class="text-xs text-gray-600">João Silva - há 5 minutos</p>
+=======
+              <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-gray-900">Novo usuário cadastrado</p>
+                <p class="text-xs text-gray-600">2 minutos atrás</p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </div>
 
             <div class="flex items-center space-x-4 p-4 bg-green-50/50 rounded-2xl">
+<<<<<<< HEAD
               <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
+              <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
               <div class="flex-1">
+<<<<<<< HEAD
                 <p class="text-sm font-semibold text-gray-800">Manutenção concluída</p>
                 <p class="text-xs text-gray-600">Equipamento #EQ001 - há 10 minutos</p>
+=======
+                <p class="text-sm font-semibold text-gray-900">Manutenção concluída</p>
+                <p class="text-xs text-gray-600">15 minutos atrás</p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </div>
 
             <div class="flex items-center space-x-4 p-4 bg-orange-50/50 rounded-2xl">
+<<<<<<< HEAD
               <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+=======
+              <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                 </svg>
               </div>
               <div class="flex-1">
+<<<<<<< HEAD
                 <p class="text-sm font-semibold text-gray-800">Alerta de manutenção</p>
                 <p class="text-xs text-gray-600">Equipamento #EQ015 - há 1 hora</p>
+=======
+                <p class="text-sm font-semibold text-gray-900">Equipamento requer atenção</p>
+                <p class="text-xs text-gray-600">1 hora atrás</p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
               </div>
             </div>
           </div>
@@ -240,12 +376,21 @@
           <div class="flex items-center space-x-4">
             <div class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<<<<<<< HEAD
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
               </svg>
             </div>
             <div>
               <p class="text-sm font-semibold text-gray-900">Zenthur System v3.0</p>
               <p class="text-xs text-gray-600">Sistema de Gestão Empresarial</p>
+=======
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Sistema de Gestão v2.0</h3>
+              <p class="text-sm text-gray-600">Última atualização: {{ new Date().toLocaleDateString('pt-BR') }}</p>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
             </div>
           </div>
           <div class="flex items-center space-x-2 text-sm text-gray-600">
@@ -262,6 +407,10 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+<<<<<<< HEAD
+=======
+// ⭐ CORRIGIR O MIDDLEWARE - usar 'admin' em vez de 'admin-auth'
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 definePageMeta({
   middleware: 'admin'
 });
@@ -275,8 +424,15 @@ const stats = ref({
   systemHealth: 99.9
 });
 
+<<<<<<< HEAD
 onMounted(async () => {
   try {
+=======
+// Verificar autenticação admin ao montar
+onMounted(async () => {
+  try {
+    // ⭐ VERIFICAÇÃO ADICIONAL DE SEGURANÇA
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     const adminToken = localStorage.getItem('admin_token');
     const adminUserData = localStorage.getItem('admin_user');
     
@@ -286,6 +442,10 @@ onMounted(async () => {
       return;
     }
     
+<<<<<<< HEAD
+=======
+    // ⭐ VERIFICAR SE O USUÁRIO É REALMENTE ADMIN
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     const userData = JSON.parse(adminUserData);
     if (userData.role !== 'admin') {
       console.error('❌ Usuário não é admin:', userData.role);
@@ -298,6 +458,10 @@ onMounted(async () => {
     adminUser.value = userData;
     console.log('✅ Admin autenticado:', adminUser.value.email);
     
+<<<<<<< HEAD
+=======
+    // Carregar estatísticas
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     await loadStats();
     
   } catch (error) {
@@ -308,6 +472,10 @@ onMounted(async () => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// Carregar estatísticas do dashboard
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 const loadStats = async () => {
   try {
     const adminToken = localStorage.getItem('admin_token');
@@ -319,6 +487,10 @@ const loadStats = async () => {
     
     console.log('📊 Carregando estatísticas do dashboard...');
     
+<<<<<<< HEAD
+=======
+    // ✅ CORREÇÃO: Usar runtime config
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     const config = useRuntimeConfig();
     const baseURL = config.public.apiBase;
     
@@ -344,6 +516,10 @@ const loadStats = async () => {
       }).catch(err => ({ ok: false, error: err }))
     ]);
     
+<<<<<<< HEAD
+=======
+    // Processar usuários
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     if (usersRes.ok) {
       const usersData = await usersRes.json();
       stats.value.totalUsers = Array.isArray(usersData) ? usersData.length : (usersData.data ? usersData.data.length : 0);
@@ -351,6 +527,10 @@ const loadStats = async () => {
       console.warn('⚠️ Erro ao carregar usuários:', usersRes.error);
     }
     
+<<<<<<< HEAD
+=======
+    // Processar equipamentos
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     if (equipamentosRes.ok) {
       const equipamentosData = await equipamentosRes.json();
       stats.value.totalEquipamentos = Array.isArray(equipamentosData) ? equipamentosData.length : (equipamentosData.data ? equipamentosData.data.length : 0);
@@ -358,6 +538,10 @@ const loadStats = async () => {
       console.warn('⚠️ Erro ao carregar equipamentos:', equipamentosRes.error);
     }
     
+<<<<<<< HEAD
+=======
+    // Processar manutenções
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     if (manutencoesRes.ok) {
       const manutencoesData = await manutencoesRes.json();
       const manutencoes = Array.isArray(manutencoesData) ? manutencoesData : (manutencoesData.data ? manutencoesData.data : []);
@@ -373,11 +557,19 @@ const loadStats = async () => {
   }
 };
 
+<<<<<<< HEAD
+=======
+// Navegação
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 const navigateTo = (path) => {
   console.log('🔗 Navegando para:', path);
   router.push(path);
 };
 
+<<<<<<< HEAD
+=======
+// Logout
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 const logout = async () => {
   if (confirm('Tem certeza que deseja sair do painel administrativo?')) {
     console.log('👋 Fazendo logout do admin...');
@@ -389,6 +581,10 @@ const logout = async () => {
 </script>
 
 <style scoped>
+<<<<<<< HEAD
+=======
+/* Animações personalizadas */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -402,10 +598,18 @@ const logout = async () => {
   animation: float 3s ease-in-out infinite;
 }
 
+<<<<<<< HEAD
+=======
+/* Glass morphism effect */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 .backdrop-blur-sm {
   backdrop-filter: blur(12px);
 }
 
+<<<<<<< HEAD
+=======
+/* Hover effects */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 .group:hover .group-hover\:scale-110 {
   transform: scale(1.1);
 }
@@ -414,6 +618,10 @@ const logout = async () => {
   transform: rotate(12deg);
 }
 
+<<<<<<< HEAD
+=======
+/* Responsive adjustments */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 @media (max-width: 768px) {
   .grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -424,6 +632,10 @@ const logout = async () => {
   }
 }
 
+<<<<<<< HEAD
+=======
+/* Scrollbar styling */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -441,4 +653,8 @@ const logout = async () => {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.7);
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

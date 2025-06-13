@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
 
+=======
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 generator client {
   provider = "prisma-client-js"
 }
 
+<<<<<<< HEAD
+=======
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
@@ -15,6 +26,7 @@ model User {
   empresa      String?
   telefone     String?
   role         String        @default("user")
+<<<<<<< HEAD
   equipamentos Equipamento[]
   manutencoes  Manutencao[]
   categorias   Categoria[]
@@ -22,12 +34,39 @@ model User {
   plantas      Planta[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+=======
+  
+  equipamentos Equipamento[]
+  manutencoes  Manutencao[]  // ✅ RELAÇÃO SIMPLES
+  categorias   Categoria[]
+  plantas      Planta[]
+  documentos   Documento[]
+  
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("users")
+}
+
+model Categoria {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  descricao    String?
+  equipamentos Equipamento[]
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("categorias")
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 }
 
 model Equipamento {
   id            Int          @id @default(autoincrement())
   nome          String
   tag           String?
+<<<<<<< HEAD
   numeroSerie   String?
   fabricante    String?
   modelo        String?
@@ -38,6 +77,18 @@ model Equipamento {
   detalhes      String?
   area          String?
   tipo          String       @default("Equipamento")
+=======
+  modelo        String?
+  fabricante    String?
+  numeroSerie   String?
+  localizacao   String?
+  area          String?
+  unidade       String?
+  disciplina    String?
+  detalhes      String?
+  dataAquisicao DateTime?
+  status        String       @default("ativo")
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   categoriaId   Int?
   categoria     Categoria?   @relation(fields: [categoriaId], references: [id])
   userId        Int
@@ -50,6 +101,7 @@ model Equipamento {
   @@map("equipamentos")
 }
 
+<<<<<<< HEAD
 model Manutencao {
   id                    Int                 @id @default(autoincrement())
   codigo                String              @unique
@@ -74,10 +126,41 @@ model Manutencao {
   historicoTecnicos     ManutencaoTecnico[]
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
+=======
+// ✅ MANUTENÇÃO CORRIGIDA
+model Manutencao {
+  id            Int                   @id @default(autoincrement())
+  codigo        String                @unique
+  titulo        String
+  descricao     String?
+  tipo          String                @default("preventiva")
+  status        String                @default("recebida")
+  criticidade   String                @default("media")
+  prioridade    String                @default("media")
+  dataHora      DateTime?
+  dataInicio    DateTime?
+  dataFim       DateTime?
+  dataPrimeiraRevisao    DateTime?
+  dataProximaManutencao  DateTime?
+  solicitante   String?
+  responsavel   String?
+  observacoes   String?
+  arquivada     Boolean               @default(false)
+  
+  equipamentoId Int?
+  equipamento   Equipamento?          @relation(fields: [equipamentoId], references: [id])
+  
+  userId        Int                   // ✅ AUTOR DA MANUTENÇÃO
+  user          User                  @relation(fields: [userId], references: [id]) // ✅ RELAÇÃO SIMPLES
+  
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 
   @@map("manutencoes")
 }
 
+<<<<<<< HEAD
 model ManutencaoTecnico {
   id              Int       @id @default(autoincrement())
   manutencaoId    Int
@@ -117,10 +200,35 @@ model Documento {
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+=======
+model Documento {
+  id             Int          @id @default(autoincrement())
+  nome           String
+  descricao      String?
+  titulo         String?
+  tipo           String?
+  versao         Int?
+  revisao        String?
+  arquivo        String?
+  fileName       String?
+  pdfFileName    String?
+  tipoArquivo    String?
+  tamanho        Int?
+  tamanhoArquivo Int?
+  url            String?
+  caminhoArquivo String?
+  equipamentoId  Int?
+  equipamento    Equipamento? @relation(fields: [equipamentoId], references: [id])
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 
   @@map("documentos")
 }
 
+<<<<<<< HEAD
 model Categoria {
   id           Int           @id @default(autoincrement())
   nome         String
@@ -148,6 +256,22 @@ model Planta {
   marcadores  MarcadorPlanta[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+=======
+// ✅ PLANTAS CORRIGIDAS
+model Planta {
+  id          Int              @id @default(autoincrement())
+  titulo      String
+  descricao   String?
+  imageUrl    String
+  imagePath   String?
+  fileName    String?
+  ativa       Boolean          @default(true)
+  userId      Int
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  marcadores  MarcadorPlanta[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 
   @@map("plantas")
 }
@@ -165,5 +289,9 @@ model MarcadorPlanta {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+<<<<<<< HEAD
   @@map("marcador_plantas")
+=======
+  @@map("marcadores_plantas")
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 }

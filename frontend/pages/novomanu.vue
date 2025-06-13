@@ -328,7 +328,10 @@ definePageMeta({
 });
 
 const router = useRouter();
+<<<<<<< HEAD
 const config = useRuntimeConfig();
+=======
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 const authStore = useAuthStore();
 
 // Estados reativos
@@ -373,7 +376,11 @@ const fetchEquipamentos = async () => {
       return;
     }
     
+<<<<<<< HEAD
     const response = await fetch(`${config.public.apiBase}/api/equipamentos`, {
+=======
+    const response = await fetch('http://localhost:3001/api/equipamentos', {
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

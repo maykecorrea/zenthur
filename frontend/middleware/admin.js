@@ -1,4 +1,5 @@
 import { defineNuxtRouteMiddleware, navigateTo } from '#app'
+<<<<<<< HEAD
 
 export default defineNuxtRouteMiddleware(() => {
   if (process.server) return;
@@ -35,3 +36,30 @@ export default defineNuxtRouteMiddleware(() => {
     return navigateTo('/admin-login');
   }
 });
+=======
+import { useAuthStore } from '~/stores/auth'
+
+export default defineNuxtRouteMiddleware(() => {
+  const authStore = useAuthStore();
+  
+  console.log("Middleware admin:", {
+    isAuthenticated: authStore.isAuthenticated,
+    userRole: authStore.userRole,
+    user: authStore.user
+  });
+
+  // Se não estiver autenticado, redirecionar para login
+  if (!authStore.isAuthenticated) {
+    console.log('Usuário não autenticado, redirecionando para login');
+    return navigateTo('/');
+  }
+  
+  // Se não for admin, redirecionar para página inicial
+  if (authStore.userRole !== 'admin') {
+    console.log('Usuário não é admin, redirecionando para home');
+    return navigateTo('/dashboard');
+  }
+
+  console.log('Acesso autorizado ao painel admin');
+})
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

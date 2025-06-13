@@ -167,6 +167,7 @@ const handleLogin = async () => {
   error.value = '';
   
   try {
+<<<<<<< HEAD
     console.log("🔐 Tentando login admin com:", email.value);
     
     const config = useRuntimeConfig();
@@ -209,6 +210,96 @@ const handleLogin = async () => {
       }
     } else {
       throw new Error(response.message || 'Login falhou');
+=======
+    console.log("Tentando login admin com:", email.value);
+    
+    // ✅ CORREÇÃO: Usar URL relativa em produção
+    const config = useRuntimeConfig();
+    let apiBase = config.public.apiBase;
+    
+    // Se vazio ou produção, usar URL relativa
+    if (!apiBase || apiBase === '' || process.env.NODE_ENV === 'production') {
+      apiBase = '';  // URL relativa
+    }
+    
+    const url = apiBase ? `${apiBase}/api/auth/login` : '/api/auth/login';
+    console.log('🔗 URL de login:', url);
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
+    });
+    
+    const data = await response.json();
+    console.log("Resposta do login admin:", data);
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Credenciais inválidas');
+    }
+    
+    // CORRIGIDO: Verificar diferentes estruturas de resposta
+    let userRole = null;
+    let token = null;
+    let userData = null;
+    
+    // Estrutura 1: { user: {...}, token: '...' }
+    if (data.user && data.token) {
+      userRole = data.user.role;
+      token = data.token;
+      userData = data.user;
+      console.log("✅ Estrutura tipo 1 detectada");
+    }
+    // Estrutura 2: { data: { user: {...}, token: '...' } }
+    else if (data.data && data.data.user && data.data.token) {
+      userRole = data.data.user.role;
+      token = data.data.token;
+      userData = data.data.user;
+      console.log("✅ Estrutura tipo 2 detectada");
+    }
+    // Estrutura 3: { access_token: '...', user: {...} }
+    else if (data.access_token && data.user) {
+      userRole = data.user.role;
+      token = data.access_token;
+      userData = data.user;
+      console.log("✅ Estrutura tipo 3 detectada");
+    }
+    
+    console.log("🔍 Dados extraídos:", {
+      userRole,
+      token: token ? token.substring(0, 20) + '...' : null,
+      userData
+    });
+    
+    // VERIFICAÇÃO CORRIGIDA
+    if (!userRole || !token || !userData) {
+      console.error("❌ Dados incompletos na resposta:", { userRole, token: !!token, userData: !!userData });
+      throw new Error('Resposta da API inválida');
+    }
+    
+    // VERIFICAR SE É ADMIN
+    if (userRole === 'admin') {
+      console.log("✅ Usuário é admin, armazenando dados...");
+      
+      // Armazenar dados no localStorage
+      localStorage.setItem('admin_token', token);
+      localStorage.setItem('admin_user', JSON.stringify(userData));
+      
+      console.log("✅ Dados armazenados com sucesso");
+      console.log("🔗 Redirecionando para /adm");
+      
+      // Redirecionar para o painel admin
+      await router.push('/adm');
+      
+    } else {
+      console.warn("⚠️ Usuário não é admin. Role encontrada:", userRole);
+      error.value = `Apenas administradores podem acessar este painel. Seu role: ${userRole}`;
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     }
     
   } catch (err) {
@@ -225,6 +316,10 @@ definePageMeta({
 </script>
 
 <style scoped>
+<<<<<<< HEAD
+=======
+/* Animações personalizadas */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -252,18 +347,34 @@ definePageMeta({
   animation-delay: 2s;
 }
 
+<<<<<<< HEAD
+=======
+/* Efeitos de glass morphism */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 .backdrop-blur-xl {
   backdrop-filter: blur(24px);
 }
 
+<<<<<<< HEAD
+=======
+/* Efeitos de hover nos inputs */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 input:focus {
   transform: translateY(-1px);
 }
 
+<<<<<<< HEAD
+=======
+/* Gradiente animado no botão */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 button:hover {
   box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
 }
 
+<<<<<<< HEAD
+=======
+/* Scrollbar personalizada */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -281,9 +392,17 @@ button:hover {
   background: rgba(59, 130, 246, 0.7);
 }
 
+<<<<<<< HEAD
+=======
+/* Efeitos de focus responsivos */
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 @media (max-width: 640px) {
   .transform:hover {
     transform: none;
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

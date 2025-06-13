@@ -45,6 +45,10 @@
           </div>
         </div>
 
+<<<<<<< HEAD
+=======
+        <!-- Link "Esqueci minha senha" -->
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
         <div class="flex justify-end">
           <button 
             type="button" 
@@ -77,6 +81,10 @@
       class="hidden md:block w-1/2 bg-cover bg-center" 
       :style="`background-image: url(${bgImage})`"
     >
+<<<<<<< HEAD
+=======
+      <!-- Overlay escuro para melhorar o contraste caso necessário -->
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
       <div class="h-full w-full bg-black bg-opacity-20"></div>
     </div>
   </div>
@@ -86,6 +94,11 @@
 import { ref } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useRouter } from 'vue-router';
+<<<<<<< HEAD
+=======
+
+// Importar imagens
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
 import logoImage from '~/assets/img/logo.jpg';
 import bgImage from '~/assets/img/123bg.jpg';
 
@@ -102,6 +115,10 @@ const error = ref('');
 const isLoading = ref(false);
 
 const handleLogin = async () => {
+<<<<<<< HEAD
+=======
+  // Validar entradas
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   if (!email.value || !password.value) {
     error.value = 'Por favor, preencha todos os campos.';
     return;
@@ -109,6 +126,10 @@ const handleLogin = async () => {
   
   isLoading.value = true;
   
+<<<<<<< HEAD
+=======
+  // ✅ CORRIGIDO: Passar como objeto
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   const success = await authStore.login({
     email: email.value,
     password: password.value
@@ -117,11 +138,19 @@ const handleLogin = async () => {
   isLoading.value = false;
   
   if (success) {
+<<<<<<< HEAD
     console.log("User role:", authStore.userRole);
     console.log("User data:", authStore.user);
     
     // Redirecionar baseado no papel do usuário
     if (authStore.userRole === 'admin') {
+=======
+    console.log("User role:", authStore.role);
+    console.log("User data:", authStore.user);
+    
+    // Redirecionar baseado no papel do usuário
+    if (authStore.role === 'admin') {
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
       router.push('/adm');
     } else {
       router.push('/dashboard');
@@ -134,4 +163,8 @@ const handleLogin = async () => {
 const forgotPassword = () => {
   alert("Em breve você receberá um email com instruções para recuperar sua senha.");
 };
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

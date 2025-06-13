@@ -328,6 +328,7 @@ router.delete('/:id', logRequest, authenticateToken, adminMiddleware, async (req
   }
 });
 
+<<<<<<< HEAD
 // ⭐ ROTAS DE AUTENTICAÇÃO
 router.post('/login', logRequest, async (req, res) => {
   try {
@@ -391,3 +392,6 @@ router.post('/logout', (req, res) => {
 });
 
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8

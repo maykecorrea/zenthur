@@ -10,7 +10,11 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const { status, equipamentoId, userId, page = 1, limit = 50 } = req.query;
     
+<<<<<<< HEAD
     let whereCondition = { userId: req.user.sub };
+=======
+    let whereCondition = {};
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     // Filtros opcionais
     if (status) whereCondition.status = status;
@@ -86,6 +90,10 @@ router.get('/historico', authMiddleware, async (req, res) => {
       orderBy: { updatedAt: 'desc' }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ Histórico encontrado: ${manutencoes.length} manutenções arquivadas`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     res.json({ 
       success: true,
       manutencoes,
@@ -252,6 +260,10 @@ router.post('/', authMiddleware, async (req, res) => {
       }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ [POST /manutencoes] Manutenção criada: ${codigo} - ${titulo}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.status(201).json({
       success: true,
@@ -464,6 +476,14 @@ router.put('/:id', authMiddleware, async (req, res) => {
     });
     
     console.log('\n✅ ===== MANUTENÇÃO ATUALIZADA COM SUCESSO =====');
+<<<<<<< HEAD
+=======
+    console.log(`📋 Código: ${manutencao.codigo}`);
+    console.log(`📝 Título: ${manutencao.titulo}`);
+    console.log(`🚨 Criticidade FINAL: ${manutencao.criticidade}`);
+    console.log(`👨‍🔧 Responsável FINAL: ${manutencao.responsavel}`);
+    console.log(`📊 Status FINAL: ${manutencao.status}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     console.log('===============================================\n');
     
     res.json({
@@ -526,6 +546,10 @@ router.patch('/:id/status', authMiddleware, async (req, res) => {
       }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ [PATCH /manutencoes/status] Status atualizado: ${manutencaoAtualizada.codigo} -> ${status}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -590,6 +614,10 @@ router.patch('/:id/arquivar', authMiddleware, async (req, res) => {
       }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ Manutenção ${manutencao.codigo} arquivada com sucesso`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -706,6 +734,10 @@ router.post('/:id/tecnicos', authMiddleware, async (req, res) => {
       data: { responsavel: tecnicoNome.trim() }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ Técnico ${tecnicoNome} adicionado à manutenção ${manutencaoId}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -747,6 +779,10 @@ router.get('/:id/historico-tecnicos', authMiddleware, async (req, res) => {
       orderBy: { dataAtribuicao: 'desc' }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ Encontrados ${historicoTecnicos.length} registros no histórico`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -815,6 +851,10 @@ router.put('/:id/tecnicos/:tecnicoId', authMiddleware, async (req, res) => {
       }
     });
     
+<<<<<<< HEAD
+=======
+    console.log(`✅ Relatório do técnico ${tecnicoId} atualizado`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,

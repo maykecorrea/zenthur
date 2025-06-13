@@ -216,7 +216,11 @@
           </div>
 
           <!-- ⭐ MODELO 3D - REDIRECIONAR PARA APS VIEWER -->
+<<<<<<< HEAD
           <a href="/aps-viewer" target="_blank" class="block">
+=======
+          <a href="http://localhost:8080" target="_blank" class="block">
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
             <div :class="menuItemClass('/modelo3d')">
               <div class="flex items-center justify-between w-full min-w-0">
                 <div class="flex items-center min-w-0">

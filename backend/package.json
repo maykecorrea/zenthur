@@ -11,8 +11,12 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "npx tsx prisma/seed.ts"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -41,9 +45,14 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@types/node": "^24.0.1",
     "nodemon": "^3.0.1",
     "prisma": "^6.8.2",
     "tsx": "^4.20.3"
+=======
+    "nodemon": "^3.0.1",
+    "prisma": "6.8.2"
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
   }
 }

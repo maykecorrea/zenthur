@@ -85,6 +85,10 @@ router.get('/', authMiddleware, async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [GET /documentos] ${documentos.length} documentos encontrados`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json(documentos);
   } catch (error) {
@@ -100,6 +104,10 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+<<<<<<< HEAD
+=======
+    console.log('🔍 [GET /documentos/:id] ID:', id, 'Usuário:', req.user.email);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     const documento = await prisma.documento.findFirst({
       where: { 
@@ -120,6 +128,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Documento não encontrado' });
     }
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [GET /documentos/:id] Documento encontrado: ${documento.nome}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json(documento);
   } catch (error) {
@@ -202,6 +214,11 @@ router.post('/upload', authMiddleware, upload.single('arquivo'), async (req, res
       }
     });
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [POST /documentos/upload] Documento criado: ${documento.id} - ${documento.titulo}`);
+    console.log(`📁 [POST /documentos/upload] Arquivo salvo: ${req.file.path}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.status(201).json({
       success: true,
@@ -233,6 +250,11 @@ router.post('/upload', authMiddleware, upload.single('arquivo'), async (req, res
 // ⭐ CRIAR DOCUMENTO SEM ARQUIVO (CORRIGIR TAMBÉM)
 router.post('/', authMiddleware, async (req, res) => {
   try {
+<<<<<<< HEAD
+=======
+    console.log('📄 [POST /documentos] Criando documento SEM arquivo');
+    console.log('📄 [POST /documentos] Body:', req.body);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     const { titulo, tipo, equipamentoId, versao, revisao, descricao } = req.body;
 
@@ -284,6 +306,10 @@ router.post('/', authMiddleware, async (req, res) => {
       }
     });
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [POST /documentos] Documento criado: ${documento.id} para equipamento: ${equipamento.nome}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.status(201).json({
       success: true,
@@ -338,6 +364,10 @@ router.put('/:id', authMiddleware, async (req, res) => {
     if (versao !== undefined) {
       // Remover parte decimal se tiver e converter para inteiro
       dadosAtualizacao.versao = parseInt(String(versao).split('.')[0]);
+<<<<<<< HEAD
+=======
+      console.log('🔢 Versão convertida para número:', dadosAtualizacao.versao);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     }
     
     // Revisão pode permanecer como string
@@ -377,6 +407,10 @@ router.put('/:id', authMiddleware, async (req, res) => {
       }
     });
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [PUT /documentos/:id] Documento atualizado: ${documento.nome}`, documento);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -426,6 +460,10 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       }
     }
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [DELETE /documentos/:id] Documento excluído: ${documento.nome}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json({
       success: true,
@@ -464,6 +502,10 @@ router.get('/:id/download', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Arquivo não encontrado no servidor' });
     }
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [GET /documentos/:id/download] Download iniciado: ${documento.fileName}`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     // ✅ FAZER DOWNLOAD COM CAMPOS CORRETOS
     res.download(documento.arquivo, documento.fileName, (err) => {
@@ -488,6 +530,10 @@ router.get('/:id/download', authMiddleware, async (req, res) => {
 router.get('/equipamento/:equipamentoId', authMiddleware, async (req, res) => {
   try {
     const equipamentoId = parseInt(req.params.equipamentoId);
+<<<<<<< HEAD
+=======
+    console.log('📄 [GET /documentos/equipamento/:equipamentoId] ID:', equipamentoId);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     // Verificar se equipamento existe e pertence ao usuário
     const equipamento = await prisma.equipamento.findFirst({
@@ -514,6 +560,10 @@ router.get('/equipamento/:equipamentoId', authMiddleware, async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
 
+<<<<<<< HEAD
+=======
+    console.log(`✅ [GET /documentos/equipamento/:equipamentoId] ${documentos.length} documentos encontrados`);
+>>>>>>> c4410f37eb21356904139954172dee6daaafd1f8
     
     res.json(documentos);
   } catch (error) {
