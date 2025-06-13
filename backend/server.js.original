@@ -1,0 +1,15 @@
+// Forçar porta 3001 explicitamente
+const express = require('express');
+const app = express();
+const PORT = 3001;
+
+// Configurações e rotas existentes
+require('dotenv').config();
+
+// Resto do código do servidor...
+// Garantindo que a porta está definida explicitamente
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+});
+
+module.exports = server;
