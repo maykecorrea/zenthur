@@ -1,0 +1,7 @@
+# Crie um arquivo .gitignore com este conteúdo:
+node_modules/
+.nuxt/
+.output/
+.env
+dist/
+*.log

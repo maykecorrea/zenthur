@@ -1,0 +1,180 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                 Int                 @id @default(autoincrement())
+  email              String              @unique
+  password           String
+  nome               String?
+  empresa            String?
+  telefone           String?
+  role               String              @default("user")
+  equipamentos       Equipamento[]
+  manutencoes        Manutencao[]
+  categorias         Categoria[]
+  manutencoesTecnico ManutencaoTecnico[]
+  documentos         Documento[]
+  plantas            Planta[]            // ⭐ ADICIONAR PLANTAS
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@map("users")
+}
+
+model Equipamento {
+  id            Int          @id @default(autoincrement())
+  nome          String
+  tag           String?
+  numeroSerie   String?
+  fabricante    String?
+  modelo        String?
+  dataAquisicao DateTime?
+  localizacao   String?
+  unidade       String?
+  disciplina    String?
+  detalhes      String?
+  area          String?
+  tipo          String       @default("Equipamento")
+  imagem        String?      // ⭐ ADICIONAR CAMPO IMAGEM
+  categoriaId   Int?
+  categoria     Categoria?   @relation(fields: [categoriaId], references: [id])
+  userId        Int
+  user          User         @relation(fields: [userId], references: [id])
+  manutencoes   Manutencao[]
+  documentos    Documento[]
+  marcadores    Marcador[]   // ⭐ RELAÇÃO COM MARCADORES
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("equipamentos")
+}
+
+model Manutencao {
+  id                    Int                 @id @default(autoincrement())
+  codigo                String              @unique
+  titulo                String
+  descricao             String?
+  dataHora              DateTime            @default(now())
+  dataPrimeiraRevisao   DateTime?
+  dataProximaManutencao DateTime?
+  status                String              @default("recebida")
+  criticidade           String?
+  tipo                  String?
+  solicitante           String?
+  responsavel           String?
+  observacoes           String?
+  prioridade            String              @default("media")
+  dataPrevisao          DateTime?
+  
+  // ⭐ ADICIONAR ESTE CAMPO SE NÃO EXISTIR
+  dataArquivamento      DateTime?
+  
+  equipamentoId         Int?
+  equipamento           Equipamento?        @relation(fields: [equipamentoId], references: [id])
+  userId                Int
+  user                  User                @relation(fields: [userId], references: [id])
+  historicoTecnicos     ManutencaoTecnico[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@map("manutencoes")
+}
+
+model ManutencaoTecnico {
+  id              Int        @id @default(autoincrement())
+  manutencaoId    Int
+  manutencao      Manutencao @relation(fields: [manutencaoId], references: [id], onDelete: Cascade)
+  tecnicoId       Int?
+  tecnico         User?      @relation(fields: [tecnicoId], references: [id])
+  tecnicoNome     String
+  statusAnterior  String?
+  statusAtual     String?
+  observacoes     String?
+  dataAtribuicao  DateTime   @default(now())
+  dataFinalizacao DateTime?
+  ativo           Boolean    @default(true)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@map("manutencao_tecnicos")
+}
+
+model Documento {
+  id            Int         @id @default(autoincrement())
+  titulo        String
+  nome          String?
+  tipo          String      @default("manual")
+  descricao     String?
+  arquivo       String?
+  url           String?
+  fileName      String?
+  pdfFileName   String?
+  tamanho       Int?
+  versao        Int         @default(1)
+  revisao       String?
+  equipamentoId Int
+  equipamento   Equipamento @relation(fields: [equipamentoId], references: [id], onDelete: Cascade)
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("documentos")
+}
+
+model Categoria {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  descricao    String?
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  equipamentos Equipamento[]
+  
+  @@unique([nome, userId])
+  @@map("categorias")
+}
+
+// ⭐ ADICIONAR MODELO PLANTA
+model Planta {
+  id          Int        @id @default(autoincrement())
+  titulo      String
+  descricao   String?
+  imageUrl    String?
+  imagePath   String?    // Caminho físico da imagem
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  marcadores  Marcador[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("plantas")
+}
+
+// ⭐ ADICIONAR MODELO MARCADOR
+model Marcador {
+  id            Int         @id @default(autoincrement())
+  titulo        String
+  descricao     String?
+  posicaoX      Float       // Posição X na imagem (%)
+  posicaoY      Float       // Posição Y na imagem (%)
+  tipo          String      @default("equipamento") // equipamento, problema, observacao
+  cor           String      @default("#ef4444")     // Cor do marcador
+  plantaId      Int
+  planta        Planta      @relation(fields: [plantaId], references: [id], onDelete: Cascade)
+  equipamentoId Int?
+  equipamento   Equipamento? @relation(fields: [equipamentoId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("marcadores")
+}
+
+
