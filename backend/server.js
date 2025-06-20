@@ -38,6 +38,16 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
+// ⭐ ROTA RAIZ (ADICIONAR ESTA LINHA)
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Zenthur Backend API', 
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
+
 // ⭐ USAR ROTAS AUTH DO MIDDLEWARE
 app.use('/api/auth', authMiddleware.router);
 
