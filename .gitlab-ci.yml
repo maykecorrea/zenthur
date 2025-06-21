@@ -1,0 +1,99 @@
+stages:
+  - install
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "20"
+
+# Instalar dependências para todos os projetos
+install_dependencies:
+  stage: install
+  image: node:${NODE_VERSION}-alpine
+  script:
+    # Frontend
+    - cd frontend && npm ci
+    # Backend
+    - cd ../backend && npm ci && npx prisma generate
+    # APS Viewer
+    - cd ../aps-simple-viewer-nodejs-develop && npm ci
+  artifacts:
+    paths:
+      - frontend/node_modules/
+      - backend/node_modules/
+      - aps-simple-viewer-nodejs-develop/node_modules/
+    expire_in: 1 hour
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - frontend/node_modules/
+      - backend/node_modules/
+      - aps-simple-viewer-nodejs-develop/node_modules/
+
+# Build de todos os projetos
+build_projects:
+  stage: build
+  image: node:${NODE_VERSION}-alpine
+  dependencies:
+    - install_dependencies
+  script:
+    # Build Frontend (Nuxt)
+    - cd frontend && npm run build
+    # Backend já está pronto (JavaScript puro)
+    # APS Viewer já está pronto (JavaScript puro)
+  artifacts:
+    paths:
+      - frontend/.output/
+      - frontend/node_modules/
+      - backend/
+      - aps-simple-viewer-nodejs-develop/
+    expire_in: 1 hour
+
+# Deploy para servidor
+deploy_production:
+  stage: deploy
+  image: alpine:latest
+  dependencies:
+    - build_projects
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    # Deploy todos os arquivos
+    - rsync -avz --delete --exclude='.git' ./ $SERVER_USER@$SERVER_IP:$APP_PATH/
+    
+    # Executar comandos no servidor
+    - ssh $SERVER_USER@$SERVER_IP "cd $APP_PATH && chmod +x start-all.sh && ./start-all.sh"
+  only:
+    - main
+  environment:
+    name: production
+    url: https://zenthur.com
+  when: manual
+
+# Opcional: Deploy automático para development
+deploy_development:
+  stage: deploy
+  image: alpine:latest
+  dependencies:
+    - build_projects
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - rsync -avz --delete --exclude='.git' ./ $SERVER_USER@$SERVER_IP:$DEV_APP_PATH/
+    - ssh $SERVER_USER@$SERVER_IP "cd $DEV_APP_PATH && chmod +x start-all.sh && ./start-all.sh"
+  only:
+    - develop
+  environment:
+    name: development
