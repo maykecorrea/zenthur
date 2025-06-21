@@ -18,7 +18,7 @@ const plantasRoutes = require('./routes/plantas'); // ⭐ ADICIONAR ESTA LINHA
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4001;
 
 // ⭐ MIDDLEWARE BÁSICO
 app.use(cors({

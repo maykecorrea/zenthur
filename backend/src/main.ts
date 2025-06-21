@@ -11,7 +11,7 @@ async function bootstrap() {
   
   // Configuração CORS
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: ['http://localhost:3000', 'http://localhost:4001'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -44,7 +44,7 @@ async function bootstrap() {
   console.log('📁 Diretório de uploads:', uploadsPath);
   console.log('📁 Arquivos disponíveis:', fs.existsSync(uploadsPath) ? fs.readdirSync(uploadsPath).length : 0);
 
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 4001;
   await app.listen(port);
   
   console.log(`🚀 Servidor NestJS rodando na porta ${port}`);

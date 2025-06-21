@@ -66,7 +66,7 @@ router.get('/', authMiddleware, async (req, res) => {
     // Transformar caminhos de imagem para URLs públicas
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:3001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
     }));
 
     console.log('🏭 [BACKEND] Plantas formatadas para envio:', plantasFormatadas.length);
@@ -108,7 +108,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
     const plantaFormatada = {
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:3001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
     };
 
     res.json(plantaFormatada);
@@ -177,7 +177,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     // Transformar caminho de imagem para URL pública
     const plantaFormatada = {
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:3001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
     };
 
     console.log('📝 [BACKEND] Planta formatada para resposta:', plantaFormatada);
@@ -246,7 +246,7 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
     const plantaFormatada = {
       ...plantaAtualizada,
-      imageUrl: plantaAtualizada.imageUrl ? `http://localhost:3001${plantaAtualizada.imageUrl}` : null
+      imageUrl: plantaAtualizada.imageUrl ? `http://localhost:4001${plantaAtualizada.imageUrl}` : null
     };
 
     console.log(`✅ [PUT /plantas/:id] Planta atualizada: ${plantaAtualizada.titulo}`);

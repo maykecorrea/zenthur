@@ -330,7 +330,7 @@ export class DocumentosService {
 
       if (file) {
         updateData.arquivo = file.filename;
-        updateData.url = `http://localhost:3001/uploads/documentos/${file.filename}`;
+        updateData.url = `http://localhost:4001/uploads/documentos/${file.filename}`;
         updateData.tamanho = file.size;
       }
 

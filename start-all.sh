@@ -25,15 +25,15 @@ check_port() {
 
 # Verificar e liberar portas
 check_port 4000
-check_port 3001
+check_port 4001
 check_port 8080
 
 # Executar migrações do banco (se necessário)
 echo -e "${BLUE}🗄️  Executando migrações do banco...${NC}"
 cd backend && npx prisma db push && cd ..
 
-# Iniciar Backend (porta 3001)
-echo -e "${GREEN}🔧 Iniciando Backend na porta 3001...${NC}"
+# Iniciar Backend (porta 4001)
+echo -e "${GREEN}🔧 Iniciando Backend na porta 4001...${NC}"
 cd backend
 nohup npm start > ../logs/backend.log 2>&1 &
 BACKEND_PID=$!
@@ -64,16 +64,4 @@ mkdir -p logs
 
 # Salvar PIDs para futuro controle
 echo $BACKEND_PID > logs/backend.pid
-echo $APS_PID > logs/aps.pid
-echo $FRONTEND_PID > logs/frontend.pid
-
-# Aguardar todos os serviços iniciarem
-sleep 5
-
-echo -e "${GREEN}✅ Todos os serviços iniciados!${NC}"
-echo -e "${BLUE}📊 Serviços iniciados:${NC}"
-echo -e "✅ Frontend na porta 4000 (PID: $FRONTEND_PID)"
-echo -e "✅ Backend na porta 3001 (PID: $BACKEND_PID)"  
-echo -e "✅ APS Viewer na porta 8080 (PID: $APS_PID)"
-
-echo -e "${GREEN}🎉 Deploy concluído com sucesso!${NC}"
+echo $APS_PID >
