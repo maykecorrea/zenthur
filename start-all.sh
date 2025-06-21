@@ -24,7 +24,7 @@ check_port() {
 }
 
 # Verificar e liberar portas
-check_port 3000
+check_port 4000
 check_port 3001
 check_port 8080
 
@@ -52,8 +52,8 @@ cd ..
 # Aguardar APS inicializar
 sleep 3
 
-# Iniciar Frontend (porta 3000)
-echo -e "${GREEN}🌐 Iniciando Frontend na porta 3000...${NC}"
+# Iniciar Frontend (porta 4000)
+echo -e "${GREEN}🌐 Iniciando Frontend na porta 4000...${NC}"
 cd frontend
 nohup npm start > ../logs/frontend.log 2>&1 &
 FRONTEND_PID=$!
@@ -72,7 +72,7 @@ sleep 5
 
 echo -e "${GREEN}✅ Todos os serviços iniciados!${NC}"
 echo -e "${BLUE}📊 Serviços iniciados:${NC}"
-echo -e "✅ Frontend na porta 3000 (PID: $FRONTEND_PID)"
+echo -e "✅ Frontend na porta 4000 (PID: $FRONTEND_PID)"
 echo -e "✅ Backend na porta 3001 (PID: $BACKEND_PID)"  
 echo -e "✅ APS Viewer na porta 8080 (PID: $APS_PID)"
 
