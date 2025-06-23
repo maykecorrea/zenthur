@@ -11,7 +11,11 @@ async function bootstrap() {
   
   // Configuração CORS
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:4001'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:4001',
+      'https://zenthur.com'
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

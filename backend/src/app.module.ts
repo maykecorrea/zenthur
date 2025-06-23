@@ -15,7 +15,7 @@ import { DocumentosModule } from './documentos/documentos.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { SearchModule } from './search/search.module';
-import { PlantasModule } from './plantas/plantas.module'; // ⭐ ADICIONAR
+
 
 import { FilesModule } from './common/files/files.module';
 import { AppointmentsModule } from './appointments/appointments.module';
@@ -40,7 +40,6 @@ import { AppService } from './app.service';
     DashboardModule,
     CategoriasModule,
     SearchModule,
-    PlantasModule, // ⭐ ADICIONAR
     FilesModule,
     AppointmentsModule,
 
