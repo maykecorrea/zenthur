@@ -356,21 +356,21 @@ const loadStats = async () => {
     // ⭐ BUSCAR DADOS COM TRATAMENTO DE ERRO MELHORADO
     try {
       const [usersRes, equipamentosRes, manutencoesRes] = await Promise.all([
-        fetch('http://localhost:3001/api/users', {
+        fetch('http://localhost:4001/api/users', {
           headers: { 
             'Authorization': `Bearer ${adminToken}`,
             'Content-Type': 'application/json'
           }
         }).catch(err => ({ ok: false, error: err })),
         
-        fetch('http://localhost:3001/api/equipamentos', {
+        fetch('http://localhost:4001/api/equipamentos', {
           headers: { 
             'Authorization': `Bearer ${adminToken}`,
             'Content-Type': 'application/json'
           }
         }).catch(err => ({ ok: false, error: err })),
         
-        fetch('http://localhost:3001/api/manutencoes', {
+        fetch('http://localhost:4001/api/manutencoes', {
           headers: { 
             'Authorization': `Bearer ${adminToken}`,
             'Content-Type': 'application/json'

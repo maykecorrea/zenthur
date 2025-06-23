@@ -529,7 +529,7 @@ const salvarUsuario = async () => {
     if (usuarioEditando.value) {
       // Editar usuário existente
       console.log('✏️ Editando usuário:', usuarioEditando.value.id);
-      response = await fetch(`http://localhost:3001/api/users/${usuarioEditando.value.id}`, {
+      response = await fetch(`http://localhost:4001/api/users/${usuarioEditando.value.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`, // ⭐ USAR TOKEN CORRETO
@@ -540,7 +540,7 @@ const salvarUsuario = async () => {
     } else {
       // Criar novo usuário
       console.log('➕ Criando novo usuário');
-      response = await fetch('http://localhost:3001/api/users', {
+      response = await fetch('http://localhost:4001/api/users', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`, // ⭐ USAR TOKEN CORRETO
@@ -594,7 +594,7 @@ const excluirUsuario = async () => {
 
     console.log('🗑️ Excluindo usuário:', usuarioParaExcluir.value.id);
     
-    const response = await fetch(`http://localhost:3001/api/users/${usuarioParaExcluir.value.id}`, {
+    const response = await fetch(`http://localhost:4001/api/users/${usuarioParaExcluir.value.id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`, // ⭐ USAR TOKEN CORRETO

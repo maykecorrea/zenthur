@@ -882,7 +882,7 @@ const downloadDocumento = async (documento) => {
     // ⭐ FAZER REQUISIÇÃO PARA O BACKEND PARA OBTER O ARQUIVO
     const token = localStorage.getItem('auth_token');
     
-    const response = await fetch(`http://localhost:3001/api/documentos/${documento.id}/download`, {
+    const response = await fetch(`http://localhost:4001/api/documentos/${documento.id}/download`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

@@ -207,7 +207,7 @@ const fetchPreventivas = async () => {
       throw new Error('Token de autenticação não encontrado');
     }
     
-    const response = await fetch('http://localhost:3001/api/manutencoes/preventivas', {
+    const response = await fetch('http://localhost:4001/api/manutencoes/preventivas', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
