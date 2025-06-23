@@ -60,22 +60,7 @@ app.use('/api/documentos', documentosRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/plantas', plantasRoutes); // ⭐ ADICIONAR ESTA LINHA
 
-// ⭐ ROTA DE SAÚDE
-app.get('/api/health', (req, res) => {
-  console.log('📞 [Health] Verificação de saúde solicitada');
-  
-  res.json({ 
-    status: 'OK', 
-    message: 'Backend funcionando - Sistema de Manutenção',
-    timestamp: new Date().toISOString(),
-    multer: {
-      configured: true,
-      maxSize: '50MB'
-    },
-    uploadsDir: uploadsDir,
-    environment: process.env.NODE_ENV || 'development'
-  });
-});
+
 
 // ⭐ MIDDLEWARE DE ERRO GLOBAL
 app.use((error, req, res, next) => {
