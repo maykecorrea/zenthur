@@ -50,7 +50,7 @@ export class DashboardService {
       const proximasVencimento = await this.prisma.manutencao.count({
         where: {
           userId,
-          dataVencimento: {
+          dataProximaManutencao: {
             gte: new Date(),
             lte: dataLimite
           },
@@ -62,7 +62,7 @@ export class DashboardService {
       const vencidas = await this.prisma.manutencao.count({
         where: {
           userId,
-          dataVencimento: { lt: new Date() },
+          dataProximaManutencao: { lt: new Date() },
           status: { not: 'concluida' }
         }
       });
