@@ -55,5 +55,5 @@ pm2 save
 echo -e "${GREEN}✅ Todos os serviços iniciados!${NC}"
 echo -e "${BLUE}📊 Serviços ativos:"
 pm2 list --name "zenthur*"
-echo -e "${GREEN}🌐 Acesse: https://my.zenthur.com${NC}"
+echo -e "${GREEN}🌐 Acesse: https://zenthur.com${NC}"
 echo -e "${BLUE}📝 Ver logs: pm2 logs${NC}"
