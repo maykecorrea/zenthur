@@ -6,6 +6,11 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+const app = require('../server'); // Certifique-se que seu server.js exporta o app
+
+// ⭐ Adicione este bloco para servir uploads como estático
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 const prisma = new PrismaClient();
 
 // Configuração upload de imagens para plantas
