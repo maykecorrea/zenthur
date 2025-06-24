@@ -336,7 +336,7 @@ const route = useRoute();
 // Atualizar para usar a porta correta (8080 ou nova porta se você alterou)
 const abrirModelo3D = () => {
   // Use a porta que está funcionando (8080 ou outra que você configurou)
-  window.open('http://localhost:8080/index.html', '_blank');
+  window.open('https://localhost:8080/index.html', '_blank');
 };
 
 // Estados

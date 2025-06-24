@@ -343,64 +343,32 @@ const validarFormulario = () => {
 
 // Upload de imagem
 const handleImageUpload = async (event) => {
-  console.log('🚀 [NOVAPLANTA] ========== INÍCIO UPLOAD IMAGEM ==========');
-  
   const file = event.target.files[0];
-  if (!file) {
-    console.warn('⚠️ [NOVAPLANTA] Nenhum arquivo selecionado');
-    return;
-  }
-  
-  console.log('📁 [NOVAPLANTA] Arquivo selecionado:', {
-    name: file.name,
-    type: file.type,
-    size: file.size
-  });
-  
+  if (!file) return;
+
   // Validar tipo de arquivo
   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
   if (!allowedTypes.includes(file.type)) {
-    console.error('❌ [NOVAPLANTA] Tipo de arquivo não permitido:', file.type);
     errors.imagem = 'Apenas arquivos JPG, PNG e GIF são permitidos';
     return;
   }
-  
+
   // Validar tamanho (10MB)
   if (file.size > 10 * 1024 * 1024) {
-    console.error('❌ [NOVAPLANTA] Arquivo muito grande:', file.size);
     errors.imagem = 'O arquivo deve ter no máximo 10MB';
     return;
   }
-  
-  try {
-    loading.value = true;
-    console.log('📤 [NOVAPLANTA] Iniciando upload...');
-    
-    const formData = new FormData();
-    formData.append('imagem', file);
-    
-    console.log('📤 [NOVAPLANTA] FormData criado, enviando para API...');
-    
-    const response = await api.post('/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-    
-    console.log('✅ [NOVAPLANTA] Upload realizado com sucesso:', response);
-    
-    planta.imageUrl = response.imageUrl;
-    errors.imagem = '';
-    
-    console.log('🎉 [NOVAPLANTA] Imagem salva no state:', planta.imageUrl);
-    
-  } catch (error) {
-    console.error('❌ [NOVAPLANTA] Erro no upload:', error);
-    errors.imagem = 'Erro ao fazer upload da imagem: ' + error.message;
-  } finally {
-    loading.value = false;
-    console.log('🏁 [NOVAPLANTA] Processo de upload finalizado');
-  }
+
+  planta.imagemFile = file;
+
+  // Preview local
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    planta.imageUrl = e.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  errors.imagem = '';
 };
 
 // Drag and drop
@@ -440,47 +408,35 @@ const removeImage = () => {
 
 // Salvar planta
 const salvarPlanta = async () => {
-  console.log('🚀 [NOVAPLANTA] ========== INÍCIO SALVAR PLANTA ==========');
-  console.log('🚀 [NOVAPLANTA] Dados da planta:', planta);
-  
-  if (!validarFormulario()) {
-    console.warn('⚠️ [NOVAPLANTA] Validação falhou, cancelando salvamento');
-    return;
-  }
-  
+  if (!validarFormulario()) return;
+
   try {
     loading.value = true;
-    console.log('📤 [NOVAPLANTA] Enviando dados para API...');
-    
-    const dadosEnvio = {
-      titulo: planta.titulo.trim(),
-      descricao: planta.descricao.trim(),
-      imageUrl: planta.imageUrl
-    };
-    
-    console.log('📤 [NOVAPLANTA] Payload:', dadosEnvio);
-    
+
+    const formData = new FormData();
+    formData.append('titulo', planta.titulo.trim());
+    formData.append('descricao', planta.descricao.trim());
+    // Supondo que você salvou o arquivo em planta.imagemFile no handleImageUpload
+    if (planta.imagemFile) {
+      formData.append('imagem', planta.imagemFile);
+    }
+
     let response;
     if (editMode.value) {
-      console.log('📤 [NOVAPLANTA] Atualizando planta existente ID:', planta.id);
-      response = await api.put(`/plantas/${planta.id}`, dadosEnvio);
+      response = await api.put(`/plantas/${planta.id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
     } else {
-      console.log('📤 [NOVAPLANTA] Criando nova planta');
-      response = await api.post('/plantas', dadosEnvio);
+      response = await api.post('/plantas', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
     }
-    
-    console.log('✅ [NOVAPLANTA] Resposta da API:', response);
-    console.log('🎉 [NOVAPLANTA] Planta salva com sucesso!');
-    
-    // Redirecionar para a página de plantas
+
     router.push('/plantainterativa');
-    
   } catch (error) {
-    console.error('❌ [NOVAPLANTA] Erro ao salvar planta:', error);
     alert('Erro ao salvar planta: ' + error.message);
   } finally {
     loading.value = false;
-    console.log('🏁 [NOVAPLANTA] Processo de salvamento finalizado');
   }
 };
 
