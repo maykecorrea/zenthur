@@ -64,9 +64,12 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 
     // Transformar caminhos de imagem para URLs públicas
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl
+        ? `${baseUrl}${planta.imageUrl}`
+        : null
     }));
 
     console.log('🏭 [BACKEND] Plantas formatadas para envio:', plantasFormatadas.length);
@@ -106,9 +109,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
     const plantaFormatada = {
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
     };
 
     res.json(plantaFormatada);
@@ -175,9 +179,10 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     console.log('📝 [BACKEND] Planta criada no banco:', planta);
 
     // Transformar caminho de imagem para URL pública
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
     const plantaFormatada = {
       ...planta,
-      imageUrl: planta.imageUrl ? `http://localhost:4001${planta.imageUrl}` : null
+      imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
     };
 
     console.log('📝 [BACKEND] Planta formatada para resposta:', plantaFormatada);
@@ -244,9 +249,10 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     });
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
     const plantaFormatada = {
       ...plantaAtualizada,
-      imageUrl: plantaAtualizada.imageUrl ? `http://localhost:4001${plantaAtualizada.imageUrl}` : null
+      imageUrl: plantaAtualizada.imageUrl ? `${baseUrl}${plantaAtualizada.imageUrl}` : null
     };
 
     console.log(`✅ [PUT /plantas/:id] Planta atualizada: ${plantaAtualizada.titulo}`);
