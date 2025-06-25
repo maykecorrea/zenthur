@@ -69,7 +69,7 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 
     // Transformar caminhos de imagem para URLs públicas
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://zenthur.com';
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
       imageUrl: planta.imageUrl
@@ -114,7 +114,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -184,7 +184,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     console.log('📝 [BACKEND] Planta criada no banco:', planta);
 
     // Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -254,7 +254,7 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     });
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...plantaAtualizada,
       imageUrl: plantaAtualizada.imageUrl ? `${baseUrl}${plantaAtualizada.imageUrl}` : null
