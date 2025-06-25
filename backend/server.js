@@ -60,8 +60,6 @@ app.use('/api/documentos', documentosRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/plantas', plantasRoutes); // ⭐ ADICIONAR ESTA LINHA
 
-
-
 // ⭐ MIDDLEWARE DE ERRO GLOBAL
 app.use((error, req, res, next) => {
   console.error('❌ [Server] Erro capturado:', error.message);
