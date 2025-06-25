@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const prisma = new PrismaClient();
 
-// Configuração upload de imagens para plantas
+// Configuração upload de imagens para plantas (com proteção contra Path Injection)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, '../uploads/plantas');
@@ -18,9 +18,12 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
+    let ext = path.extname(file.originalname || '').toLowerCase();
+    if (!['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)) {
+      ext = '.jpg';
+    }
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const extension = path.extname(file.originalname);
-    cb(null, `planta-${uniqueSuffix}${extension}`);
+    cb(null, `planta-${uniqueSuffix}${ext}`);
   }
 });
 
@@ -37,10 +40,9 @@ const upload = multer({
   }
 });
 
-// Defina o baseUrl para o backend (ajuste conforme seu ambiente real em produção)
 const baseUrl = 'https://zenthur.com:4001';
 
-// ✅ LISTAR PLANTAS
+// LISTAR PLANTAS
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const plantas = await prisma.planta.findMany({
@@ -58,9 +60,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
-      imageUrl: planta.imageUrl
-        ? `${baseUrl}${planta.imageUrl}`
-        : null
+      imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
     }));
 
     res.json(plantasFormatadas);
@@ -72,7 +72,7 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ BUSCAR PLANTA POR ID
+// BUSCAR PLANTA POR ID
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -104,7 +104,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ CRIAR NOVA PLANTA
+// CRIAR NOVA PLANTA
 router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
   try {
     const { titulo, descricao } = req.body;
@@ -150,7 +150,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
   }
 });
 
-// ✅ ATUALIZAR PLANTA
+// ATUALIZAR PLANTA
 router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -204,7 +204,7 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
   }
 });
 
-// Excluir planta
+// EXCLUIR PLANTA
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -234,7 +234,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Adicionar marcador
+// ADICIONAR MARCADOR
 router.post('/:id/marcadores', authMiddleware, async (req, res) => {
   try {
     const plantaId = parseInt(req.params.id);
@@ -247,20 +247,21 @@ router.post('/:id/marcadores', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Planta não encontrada' });
     }
 
-    const { titulo, descricao, posicaoX, posicaoY, tipo, cor, equipamentoId } = req.body;
+    const { texto, descricao, posicaoX, posicaoY, tipo, cor, equipamentoId, url } = req.body;
 
-    if (!titulo?.trim()) {
-      return res.status(400).json({ message: 'Título do marcador é obrigatório' });
+    if (!texto?.trim()) {
+      return res.status(400).json({ message: 'Texto do marcador é obrigatório' });
     }
 
     const marcadorData = {
-      titulo: titulo.trim(),
+      texto: texto.trim(),
       descricao: descricao?.trim() || '',
       posicaoX: parseFloat(posicaoX),
       posicaoY: parseFloat(posicaoY),
       tipo: tipo || 'equipamento',
       cor: cor || '#ef4444',
-      plantaId
+      plantaId,
+      url: url ? url.trim() : null
     };
 
     if (equipamentoId) {
@@ -280,7 +281,7 @@ router.post('/:id/marcadores', authMiddleware, async (req, res) => {
   }
 });
 
-// Atualizar marcador
+// ATUALIZAR MARCADOR
 router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   try {
     const marcadorId = parseInt(req.params.marcadorId);
@@ -296,15 +297,16 @@ router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Marcador não encontrado' });
     }
 
-    const { titulo, descricao, posicaoX, posicaoY, tipo, cor, equipamentoId } = req.body;
+    const { texto, descricao, posicaoX, posicaoY, tipo, cor, equipamentoId, url } = req.body;
     const updateData = {};
 
-    if (titulo !== undefined) updateData.titulo = titulo.trim();
+    if (texto !== undefined) updateData.texto = texto.trim();
     if (descricao !== undefined) updateData.descricao = descricao?.trim() || '';
     if (posicaoX !== undefined) updateData.posicaoX = parseFloat(posicaoX);
     if (posicaoY !== undefined) updateData.posicaoY = parseFloat(posicaoY);
     if (tipo !== undefined) updateData.tipo = tipo;
     if (cor !== undefined) updateData.cor = cor;
+    if (url !== undefined) updateData.url = url ? url.trim() : null;
     if (equipamentoId !== undefined) {
       updateData.equipamentoId = equipamentoId ? parseInt(equipamentoId) : null;
     }
@@ -323,7 +325,7 @@ router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   }
 });
 
-// Excluir marcador
+// EXCLUIR MARCADOR
 router.delete('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   try {
     const marcadorId = parseInt(req.params.marcadorId);
