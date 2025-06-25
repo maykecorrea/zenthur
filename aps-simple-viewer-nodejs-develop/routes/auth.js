@@ -1,13 +1,17 @@
 const express = require('express');
-const { getViewerToken } = require('../services/aps.js');
+const router = express.Router();
+const { getInternalToken } = require('../services/aps.js');
 
-let router = express.Router();
-
-router.get('/api/auth/token', async function (req, res, next) {
+router.get('/token', async function (req, res) {
     try {
-        res.json(await getViewerToken());
+        const internalToken = await getInternalToken();
+        res.json({
+            access_token: internalToken.access_token,
+            expires_in: internalToken.expires_in
+        });
     } catch (err) {
-        next(err);
+        console.error('Failed to get APS internal token:', err);
+        res.status(500).json({ error: 'Failed to get internal token' });
     }
 });
 
