@@ -6,11 +6,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const app = require('../server'); // Certifique-se que seu server.js exporta o app
-
-// ⭐ Adicione este bloco para servir uploads como estático
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
 const prisma = new PrismaClient();
 
 // Configuração upload de imagens para plantas
@@ -42,14 +37,9 @@ const upload = multer({
   }
 });
 
-// ✅ LISTAR PLANTAS - ADICIONAR LOGS DETALHADOS
+// ✅ LISTAR PLANTAS
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    console.log('🏭 [BACKEND] ========== GET /plantas ==========');
-    console.log('🏭 [BACKEND] Usuário autenticado:', req.user.email);
-    console.log('🏭 [BACKEND] User ID (sub):', req.user.sub);
-    console.log('🏭 [BACKEND] Iniciando busca no banco de dados...');
-
     const plantas = await prisma.planta.findMany({
       where: { userId: req.user.sub },
       include: {
@@ -63,12 +53,6 @@ router.get('/', authMiddleware, async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
 
-    console.log('🏭 [BACKEND] Plantas encontradas no banco:', plantas.length);
-    if (plantas.length > 0) {
-      console.log('🏭 [BACKEND] Primeira planta raw do banco:', plantas[0]);
-    }
-
-    // Transformar caminhos de imagem para URLs públicas
     const baseUrl = 'https://zenthur.com';
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
@@ -77,16 +61,8 @@ router.get('/', authMiddleware, async (req, res) => {
         : null
     }));
 
-    console.log('🏭 [BACKEND] Plantas formatadas para envio:', plantasFormatadas.length);
-    if (plantasFormatadas.length > 0) {
-      console.log('🏭 [BACKEND] Primeira planta formatada:', plantasFormatadas[0]);
-    }
-
-    console.log(`✅ [BACKEND] Enviando resposta: ${plantas.length} plantas`);
     res.json(plantasFormatadas);
   } catch (error) {
-    console.error('❌ [BACKEND] Erro completo em GET /plantas:', error);
-    console.error('❌ [BACKEND] Stack trace:', error.stack);
     res.status(500).json({ 
       message: 'Erro ao buscar plantas', 
       error: error.message 
@@ -94,11 +70,10 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ BUSCAR PLANTA POR ID - CORRIGIR INCLUDE
+// ✅ BUSCAR PLANTA POR ID
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    console.log('🔍 [GET /plantas/:id] ID:', id);
 
     const planta = await prisma.planta.findFirst({
       where: { id, userId: req.user.sub },
@@ -113,7 +88,6 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Planta não encontrada' });
     }
 
-    // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
     const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
@@ -122,7 +96,6 @@ router.get('/:id', authMiddleware, async (req, res) => {
 
     res.json(plantaFormatada);
   } catch (error) {
-    console.error('❌ [GET /plantas/:id] Erro:', error.message);
     res.status(500).json({ 
       message: 'Erro ao buscar planta', 
       error: error.message 
@@ -130,27 +103,12 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ CRIAR NOVA PLANTA - CORRIGIR URL DA IMAGEM
+// ✅ CRIAR NOVA PLANTA
 router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
   try {
-    console.log('📝 [BACKEND] ========== POST /plantas ==========');
-    console.log('📝 [BACKEND] Usuário:', req.user.email);
-    console.log('📝 [BACKEND] User ID:', req.user.sub);
-    console.log('📝 [BACKEND] Body recebido:', req.body);
-    console.log('📝 [BACKEND] Arquivo recebido:', req.file ? 'SIM' : 'NÃO');
-    if (req.file) {
-      console.log('📝 [BACKEND] Detalhes do arquivo:', {
-        filename: req.file.filename,
-        size: req.file.size,
-        mimetype: req.file.mimetype,
-        path: req.file.path
-      });
-    }
-    
     const { titulo, descricao } = req.body;
 
     if (!titulo?.trim()) {
-      console.warn('⚠️ [BACKEND] Título não fornecido ou vazio');
       return res.status(400).json({ message: 'Título é obrigatório' });
     }
 
@@ -160,18 +118,11 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
       userId: req.user.sub
     };
 
-    console.log('📝 [BACKEND] Dados da planta preparados:', plantaData);
-
     if (req.file) {
       plantaData.imageUrl = `/uploads/plantas/${req.file.filename}`;
       plantaData.imagePath = req.file.path;
-      console.log('📝 [BACKEND] URLs de imagem adicionadas:', {
-        imageUrl: plantaData.imageUrl,
-        imagePath: plantaData.imagePath
-      });
     }
 
-    console.log('📝 [BACKEND] Criando planta no banco de dados...');
     const planta = await prisma.planta.create({
       data: plantaData,
       include: {
@@ -181,29 +132,17 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
       }
     });
 
-    console.log('📝 [BACKEND] Planta criada no banco:', planta);
-
-    // Transformar caminho de imagem para URL pública
     const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
     };
 
-    console.log('📝 [BACKEND] Planta formatada para resposta:', plantaFormatada);
-    console.log(`✅ [BACKEND] Planta criada com sucesso: ${planta.titulo}`);
     res.status(201).json(plantaFormatada);
   } catch (error) {
-    console.error('❌ [BACKEND] Erro completo em POST /plantas:', error);
-    console.error('❌ [BACKEND] Stack trace:', error.stack);
-    
     if (req.file) {
-      console.log('🗑️ [BACKEND] Removendo arquivo por erro...');
-      fs.unlink(req.file.path, err => {
-        if (err) console.error('❌ [BACKEND] Erro ao remover arquivo:', err);
-      });
+      fs.unlink(req.file.path, () => {});
     }
-    
     res.status(500).json({ 
       message: 'Erro ao criar planta', 
       error: error.message 
@@ -211,11 +150,10 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
   }
 });
 
-// ✅ ATUALIZAR PLANTA - CORRIGIR URL DA IMAGEM
+// ✅ ATUALIZAR PLANTA
 router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    console.log('✏️ [PUT /plantas/:id] ID:', id);
 
     const planta = await prisma.planta.findFirst({
       where: { id, userId: req.user.sub }
@@ -232,13 +170,9 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     if (descricao !== undefined) updateData.descricao = descricao?.trim() || '';
 
     if (req.file) {
-      // Remover imagem anterior se existir
       if (planta.imagePath && fs.existsSync(planta.imagePath)) {
-        fs.unlink(planta.imagePath, err => {
-          if (err) console.error('Erro ao remover imagem anterior:', err);
-        });
+        fs.unlink(planta.imagePath, () => {});
       }
-
       updateData.imageUrl = `/uploads/plantas/${req.file.filename}`;
       updateData.imagePath = req.file.path;
     }
@@ -253,24 +187,17 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
       }
     });
 
-    // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
     const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...plantaAtualizada,
       imageUrl: plantaAtualizada.imageUrl ? `${baseUrl}${plantaAtualizada.imageUrl}` : null
     };
 
-    console.log(`✅ [PUT /plantas/:id] Planta atualizada: ${plantaAtualizada.titulo}`);
     res.json(plantaFormatada);
   } catch (error) {
-    console.error('❌ [PUT /plantas/:id] Erro:', error.message);
-    
     if (req.file) {
-      fs.unlink(req.file.path, err => {
-        if (err) console.error('Erro ao remover arquivo:', err);
-      });
+      fs.unlink(req.file.path, () => {});
     }
-    
     res.status(500).json({ 
       message: 'Erro ao atualizar planta', 
       error: error.message 
@@ -278,11 +205,10 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
   }
 });
 
-// Excluir planta (mantida igual)
+// Excluir planta
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    console.log('🗑️ [DELETE /plantas/:id] ID:', id);
 
     const planta = await prisma.planta.findFirst({
       where: { id, userId: req.user.sub }
@@ -292,21 +218,16 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Planta não encontrada' });
     }
 
-    // Remover imagem física se existir
     if (planta.imagePath && fs.existsSync(planta.imagePath)) {
-      fs.unlink(planta.imagePath, err => {
-        if (err) console.error('Erro ao remover imagem:', err);
-      });
+      fs.unlink(planta.imagePath, () => {});
     }
 
     await prisma.planta.delete({
       where: { id }
     });
 
-    console.log(`✅ [DELETE /plantas/:id] Planta excluída: ${planta.titulo}`);
     res.json({ message: 'Planta excluída com sucesso' });
   } catch (error) {
-    console.error('❌ [DELETE /plantas/:id] Erro:', error.message);
     res.status(500).json({ 
       message: 'Erro ao excluir planta', 
       error: error.message 
@@ -314,32 +235,22 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// ⭐ ROTAS PARA MARCADORES (mantidas iguais - estão corretas)
-
 // Adicionar marcador
 router.post('/:id/marcadores', authMiddleware, async (req, res) => {
   try {
     const plantaId = parseInt(req.params.id);
-    console.log('📌 [BACKEND] ========== POST /plantas/:id/marcadores ==========');
-    console.log('📌 [BACKEND] Planta ID:', plantaId);
-    console.log('📌 [BACKEND] Usuário:', req.user.email);
-    console.log('📌 [BACKEND] Dados do marcador recebidos:', req.body);
 
     const planta = await prisma.planta.findFirst({
       where: { id: plantaId, userId: req.user.sub }
     });
 
     if (!planta) {
-      console.warn('⚠️ [BACKEND] Planta não encontrada ou não pertence ao usuário');
       return res.status(404).json({ message: 'Planta não encontrada' });
     }
-
-    console.log('📌 [BACKEND] Planta encontrada:', planta.titulo);
 
     const { titulo, descricao, posicaoX, posicaoY, tipo, cor, equipamentoId } = req.body;
 
     if (!titulo?.trim()) {
-      console.warn('⚠️ [BACKEND] Título do marcador não fornecido');
       return res.status(400).json({ message: 'Título do marcador é obrigatório' });
     }
 
@@ -357,18 +268,12 @@ router.post('/:id/marcadores', authMiddleware, async (req, res) => {
       marcadorData.equipamentoId = parseInt(equipamentoId);
     }
 
-    console.log('📌 [BACKEND] Dados do marcador preparados:', marcadorData);
-
     const marcador = await prisma.marcador.create({
       data: marcadorData
     });
 
-    console.log('📌 [BACKEND] Marcador criado no banco:', marcador);
-    console.log(`✅ [BACKEND] Marcador criado com sucesso: ${marcador.titulo}`);
     res.status(201).json(marcador);
   } catch (error) {
-    console.error('❌ [BACKEND] Erro completo em POST /plantas/:id/marcadores:', error);
-    console.error('❌ [BACKEND] Stack trace:', error.stack);
     res.status(500).json({ 
       message: 'Erro ao criar marcador', 
       error: error.message 
@@ -380,7 +285,6 @@ router.post('/:id/marcadores', authMiddleware, async (req, res) => {
 router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   try {
     const marcadorId = parseInt(req.params.marcadorId);
-    console.log('✏️ [PUT /plantas/marcadores/:marcadorId] ID:', marcadorId);
 
     const marcador = await prisma.marcador.findFirst({
       where: { 
@@ -411,10 +315,8 @@ router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
       data: updateData
     });
 
-    console.log(`✅ [PUT /plantas/marcadores/:marcadorId] Marcador atualizado: ${marcadorAtualizado.titulo}`);
     res.json(marcadorAtualizado);
   } catch (error) {
-    console.error('❌ [PUT /plantas/marcadores/:marcadorId] Erro:', error.message);
     res.status(500).json({ 
       message: 'Erro ao atualizar marcador', 
       error: error.message 
@@ -426,7 +328,6 @@ router.put('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
 router.delete('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   try {
     const marcadorId = parseInt(req.params.marcadorId);
-    console.log('🗑️ [DELETE /plantas/marcadores/:marcadorId] ID:', marcadorId);
 
     const marcador = await prisma.marcador.findFirst({
       where: { 
@@ -443,10 +344,8 @@ router.delete('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
       where: { id: marcadorId }
     });
 
-    console.log(`✅ [DELETE /plantas/marcadores/:marcadorId] Marcador excluído`);
     res.json({ message: 'Marcador excluído com sucesso' });
   } catch (error) {
-    console.error('❌ [DELETE /plantas/marcadores/:marcadorId] Erro:', error.message);
     res.status(500).json({ 
       message: 'Erro ao excluir marcador', 
       error: error.message 
@@ -454,5 +353,4 @@ router.delete('/marcadores/:marcadorId', authMiddleware, async (req, res) => {
   }
 });
 
-console.log('✅ [Plantas Routes] Configurado com upload e marcadores');
 module.exports = router;
