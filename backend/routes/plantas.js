@@ -37,6 +37,9 @@ const upload = multer({
   }
 });
 
+// Defina o baseUrl para o backend (ajuste conforme seu ambiente real em produção)
+const baseUrl = 'https://zenthur.com:4001';
+
 // ✅ LISTAR PLANTAS
 router.get('/', authMiddleware, async (req, res) => {
   try {
@@ -53,7 +56,6 @@ router.get('/', authMiddleware, async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
 
-    const baseUrl = 'https://zenthur.com';
     const plantasFormatadas = plantas.map(planta => ({
       ...planta,
       imageUrl: planta.imageUrl
@@ -88,7 +90,6 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Planta não encontrada' });
     }
 
-    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -132,7 +133,6 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
       }
     });
 
-    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -187,7 +187,6 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
       }
     });
 
-    const baseUrl = 'https://zenthur.com';
     const plantaFormatada = {
       ...plantaAtualizada,
       imageUrl: plantaAtualizada.imageUrl ? `${baseUrl}${plantaAtualizada.imageUrl}` : null
