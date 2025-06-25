@@ -38,6 +38,15 @@ const upload = multer({
   }
 });
 
+// Função utilitária para montar o baseUrl correto considerando proxy/reverse proxy
+function getBaseUrl(req) {
+  let protocol = req.protocol;
+  if (req.headers['x-forwarded-proto']) {
+    protocol = req.headers['x-forwarded-proto'].split(',')[0];
+  }
+  return `${protocol}://${req.get('host')}`;
+}
+
 // ✅ LISTAR PLANTAS - ADICIONAR LOGS DETALHADOS
 router.get('/', authMiddleware, async (req, res) => {
   try {
@@ -65,7 +74,7 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 
     // Transformar caminhos de imagem para URLs públicas
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = getBaseUrl(req);
     const plantasFormatadas = plantas.map((planta, idx) => {
       const urlFinal = planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null;
       if (idx === 0) {
@@ -117,7 +126,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = getBaseUrl(req);
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -187,7 +196,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     console.log('📝 [BACKEND] Planta criada no banco:', planta);
 
     // Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = getBaseUrl(req);
     const plantaFormatada = {
       ...planta,
       imageUrl: planta.imageUrl ? `${baseUrl}${planta.imageUrl}` : null
@@ -257,7 +266,7 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     });
 
     // ⭐ ADICIONAR: Transformar caminho de imagem para URL pública
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = getBaseUrl(req);
     const plantaFormatada = {
       ...plantaAtualizada,
       imageUrl: plantaAtualizada.imageUrl ? `${baseUrl}${plantaAtualizada.imageUrl}` : null
