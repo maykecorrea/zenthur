@@ -1,8 +1,12 @@
-/// import * as Autodesk from "@types/forge-viewer";
+// viewer.js - Duplamente testado para APS com prefixo /aps/api
+
+// Importação opcional se usar types do forge-viewer (remover se não usar TypeScript)
+// import * as Autodesk from "@types/forge-viewer";
 
 async function getAccessToken(callback) {
     try {
-        const resp = await fetch('/api/auth/token');
+        // ATUALIZAÇÃO: fetch agora usa o prefixo correto para o endpoint da API
+        const resp = await fetch('/aps/api/auth/token');
         if (!resp.ok) {
             throw new Error(await resp.text());
         }
