@@ -12,7 +12,7 @@ const manutencoesRoutes = require('./routes/manutencoes');
 const equipamentosRoutes = require('./routes/equipamentos');
 const documentosRoutes = require('./routes/documentos');
 const dashboardRoutes = require('./routes/dashboard');
-const plantasRoutes = require('./routes/plantas'); // ⭐ ADICIONAR ESTA LINHA
+const plantasRoutes = require('./routes/plantas');
 
 // ⭐ IMPORTAR AUTH COMO MIDDLEWARE
 const authMiddleware = require('./middleware/auth');
@@ -29,16 +29,21 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// ⭐ SERVIR ARQUIVOS ESTÁTICOS
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 // ⭐ CRIAR PASTA DE UPLOADS SE NÃO EXISTIR
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
+// Também garante a pasta plantas
+const uploadsPlantasDir = path.join(__dirname, 'uploads/plantas');
+if (!fs.existsSync(uploadsPlantasDir)) {
+  fs.mkdirSync(uploadsPlantasDir, { recursive: true });
+}
 
-// ⭐ ROTA RAIZ (ADICIONAR ESTA LINHA)
+// ⭐ SERVIR ARQUIVOS ESTÁTICOS
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ⭐ ROTA RAIZ
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Zenthur Backend API', 
@@ -58,7 +63,7 @@ app.use('/api/manutencoes', manutencoesRoutes);
 app.use('/api/equipamentos', equipamentosRoutes);
 app.use('/api/documentos', documentosRoutes);
 app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/plantas', plantasRoutes); // ⭐ ADICIONAR ESTA LINHA
+app.use('/api/plantas', plantasRoutes);
 
 // ⭐ MIDDLEWARE DE ERRO GLOBAL
 app.use((error, req, res, next) => {
@@ -125,11 +130,9 @@ app.listen(PORT, () => {
   console.log('   ✅ GET  /api/documentos');
   console.log('   ✅ GET  /api/dashboard');
   console.log('   ✅ GET  /api/categorias');
-  console.log('   ✅ GET  /api/plantas'); // ⭐ ADICIONAR ESTA LINHA
+  console.log('   ✅ GET  /api/plantas');
   console.log('🚀==============================================');
   console.log('');
 });
 
 module.exports = app;
-
-// ✅ ARQUIVO COMPLETAMENTE LIMPO - SEM CÓDIGO ÓRFÃO
