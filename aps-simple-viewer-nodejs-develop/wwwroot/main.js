@@ -10,7 +10,7 @@ async function setupModelSelection(viewer, selectedUrn) {
     const dropdown = document.getElementById('models');
     dropdown.innerHTML = '';
     try {
-        // Corrigido: prefixo /aps/ para funcionar em ambiente hospedado em subdiretório
+        // Corrigido: prefixo /aps/ para ambiente em subdiretório
         const resp = await fetch('/aps/api/models');
         if (!resp.ok) {
             throw new Error(await resp.text());
@@ -44,7 +44,7 @@ async function setupModelUpload(viewer) {
         models.setAttribute('disabled', 'true');
         showNotification(`Uploading model <em>${file.name}</em>. Do not reload the page.`);
         try {
-            // Corrigido: prefixo /aps/ para funcionar em ambiente hospedado em subdiretório
+            // Corrigido: prefixo /aps/ para ambiente em subdiretório
             const resp = await fetch('/aps/api/models', { method: 'POST', body: data });
             if (!resp.ok) {
                 throw new Error(await resp.text());
@@ -70,7 +70,7 @@ async function onModelSelected(viewer, urn) {
     }
     window.location.hash = urn;
     try {
-        // Corrigido: prefixo /aps/ para funcionar em ambiente hospedado em subdiretório
+        // Corrigido: prefixo /aps/ para ambiente em subdiretório
         const resp = await fetch(`/aps/api/models/${urn}/status`);
         if (!resp.ok) {
             throw new Error(await resp.text());
@@ -90,7 +90,7 @@ async function onModelSelected(viewer, urn) {
             default:
                 clearNotification();
                 loadModel(viewer, urn);
-                break; 
+                break;
         }
     } catch (err) {
         alert('Could not load model. See the console for more details.');
