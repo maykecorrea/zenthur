@@ -554,12 +554,14 @@ const mostrarAlerta = (mensagem, tipo = 'success') => {
 // Inicialização
 onMounted(async () => {
   await carregarEquipamentos();
-  
+
   if (route.query.id) {
     isEditing.value = true;
     await carregarDocumento(route.query.id);
+  } else if (route.query.equipamentoId) {
+    documento.equipamentoId = route.query.equipamentoId;
   }
-  
+
   loading.value = false;
 });
 </script>
