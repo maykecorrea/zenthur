@@ -207,7 +207,8 @@ const fetchPreventivas = async () => {
       throw new Error('Token de autenticação não encontrado');
     }
     
-    const response = await fetch('http://localhost:4001/api/manutencoes/preventivas', {
+    // ALTERAÇÃO: use URL relativa para produção
+    const response = await fetch('/api/manutencoes/preventivas', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -371,7 +372,8 @@ const salvarReagendamento = async (dadosReagendamento) => {
   try {
     const token = localStorage.getItem('auth_token') || authStore.token;
     
-    const response = await fetch(`http://localhost:4001/api/manutencoes/${dadosReagendamento.id}`, {
+    // ALTERAÇÃO: use URL relativa para produção
+    const response = await fetch(`/api/manutencoes/${dadosReagendamento.id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -396,7 +398,8 @@ const marcarConcluida = async (id) => {
   try {
     const token = localStorage.getItem('auth_token') || authStore.token;
     
-    const response = await fetch(`http://localhost:4001/api/manutencoes/${id}`, {
+    // ALTERAÇÃO: use URL relativa para produção
+    const response = await fetch(`/api/manutencoes/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
