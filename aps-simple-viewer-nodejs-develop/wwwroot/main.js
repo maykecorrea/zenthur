@@ -10,7 +10,7 @@ async function setupModelSelection(viewer, selectedUrn) {
     const dropdown = document.getElementById('models');
     dropdown.innerHTML = '';
     try {
-        // Corrigido: prefixo /aps/ para ambiente em subdiretório
+        // O endpoint correto deve ser /aps/api/models
         const resp = await fetch('/aps/api/models');
         if (!resp.ok) {
             throw new Error(await resp.text());
@@ -36,7 +36,7 @@ async function setupModelUpload(viewer) {
         const file = input.files[0];
         let data = new FormData();
         data.append('model-file', file);
-        if (file.name.endsWith('.zip')) { // When uploading a zip file, ask for the main design file in the archive
+        if (file.name.endsWith('.zip')) {
             const entrypoint = window.prompt('Please enter the filename of the main design inside the archive.');
             data.append('model-zip-entrypoint', entrypoint);
         }
@@ -44,7 +44,7 @@ async function setupModelUpload(viewer) {
         models.setAttribute('disabled', 'true');
         showNotification(`Uploading model <em>${file.name}</em>. Do not reload the page.`);
         try {
-            // Corrigido: prefixo /aps/ para ambiente em subdiretório
+            // O endpoint correto deve ser /aps/api/models
             const resp = await fetch('/aps/api/models', { method: 'POST', body: data });
             if (!resp.ok) {
                 throw new Error(await resp.text());
@@ -70,7 +70,7 @@ async function onModelSelected(viewer, urn) {
     }
     window.location.hash = urn;
     try {
-        // Corrigido: prefixo /aps/ para ambiente em subdiretório
+        // O endpoint correto deve ser /aps/api/models/${urn}/status
         const resp = await fetch(`/aps/api/models/${urn}/status`);
         if (!resp.ok) {
             throw new Error(await resp.text());
