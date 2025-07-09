@@ -24,24 +24,15 @@
       </button>
       
       <!-- Cabeçalho com logo -->
-      <div class="flex justify-center items-center h-16 border-b border-gray-200 px-4">
-        <div class="transition-all duration-300 overflow-hidden">
-          <!-- ⭐ LOGO VISÍVEL APENAS QUANDO EXPANDIDO -->
+      <div class="flex justify-center items-center h-20 border-b border-gray-200 px-4">
+        <div class="transition-all duration-300 overflow-hidden w-full flex justify-center items-center">
+          <!-- Logo: exibido tanto expandido quanto minimizado -->
           <img 
-            v-if="isExpanded"
             :src="logoUrl" 
-            alt="Logo" 
-            class="h-10 w-auto max-w-full transition-all duration-300"
+            alt="Logo Zenthur"
+            class="transition-all duration-300"
+            :class="isExpanded ? 'h-12 w-auto max-w-full' : 'h-8 w-8 rounded-md'"
           />
-          <!-- ⭐ ÍCONE PEQUENO QUANDO MINIMIZADO -->
-          <div 
-            v-else 
-            class="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center transition-all duration-300"
-          >
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
-          </div>
         </div>
       </div>
       
@@ -53,7 +44,7 @@
           <NuxtLink to="/dashboard" class="block">
             <div :class="menuItemClass('/dashboard')">
               <svg class="h-5 w-5 flex-shrink-0" :class="iconClass('/dashboard')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2" />
               </svg>
               <span v-if="isExpanded" class="ml-3 text-sm font-medium">Dashboard</span>
             </div>
@@ -105,7 +96,7 @@
           <NuxtLink to="/equipamentos" class="block">
             <div :class="menuItemClass('/equipamentos')">
               <svg class="h-5 w-5 flex-shrink-0" :class="iconClass('/equipamentos')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 003 19.243V20a1 1 0 001 1h16a1 1 0 001-1v-.757a2 2 0 00-.628-1.415l-1.4-1.4z" />
               </svg>
               <span v-if="isExpanded" class="ml-3 text-sm font-medium">Equipamentos</span>
             </div>
@@ -120,7 +111,7 @@
               <div class="flex items-center justify-between w-full min-w-0">
                 <div class="flex items-center min-w-0">
                   <svg class="h-5 w-5 flex-shrink-0" :class="iconClass('manutencao')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.915.558 2.14.211 2.573-1.066z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <span v-if="isExpanded" class="ml-3 text-sm font-medium">Manutenção</span>
@@ -157,7 +148,7 @@
                   </div>
                 </NuxtLink>
                 
-                <!-- ⭐ NOVO ITEM: MANUTENÇÃO PREVENTIVA -->
+                <!-- Manutenção Preventiva -->
                 <NuxtLink to="/manupreve" class="block">
                   <div :class="submenuItemClass('/manupreve')">
                     <span class="text-xs">Manutenção Preventiva</span>
@@ -176,7 +167,7 @@
               <div class="flex items-center justify-between w-full min-w-0">
                 <div class="flex items-center min-w-0">
                   <svg class="h-5 w-5 flex-shrink-0" :class="iconClass('planta')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 7m0 13V7" />
                   </svg>
                   <span v-if="isExpanded" class="ml-3 text-sm font-medium">Planta Interativa</span>
                 </div>
@@ -215,7 +206,7 @@
             </Transition>
           </div>
 
-          <!-- ⭐ MODELO 3D - REDIRECIONAR PARA APS VIEWER -->
+          <!-- MODELO 3D - REDIRECIONAR PARA APS VIEWER -->
           <a href="http://localhost:8080" target="_blank" class="block">
             <div :class="menuItemClass('/modelo3d')">
               <div class="flex items-center justify-between w-full min-w-0">
@@ -225,7 +216,7 @@
                   </svg>
                   <span v-if="isExpanded" class="ml-3 text-sm font-medium">Modelo 3D</span>
                 </div>
-                <!-- ⭐ ÍCONE INDICANDO LINK EXTERNO -->
+                <!-- ÍCONE INDICANDO LINK EXTERNO -->
                 <svg 
                   v-if="isExpanded" 
                   class="h-3 w-3 ml-1 text-gray-400" 
@@ -267,7 +258,7 @@ import logoImage from '~/assets/img/logo.jpg';
 
 const route = useRoute();
 
-// Logo
+// Logo (sempre visível; responsivo pelo estado do menu)
 const logoUrl = computed(() => logoImage);
 
 // Estados
@@ -296,7 +287,7 @@ const menuItemClass = (path, isSubmenu = false) => {
     ].join(' ');
   }
   
-  // ⭐ ESPECIAL PARA MODELO 3D (SEMPRE CINZA - LINK EXTERNO)
+  // Especial para Modelo 3D (sempre cinza - link externo)
   if (path === '/modelo3d') {
     return [
       baseClass,
@@ -328,7 +319,6 @@ const iconClass = (path) => {
   if (path === 'manutencao' && isManutencaoActive()) return 'text-white';
   if (path === 'planta' && isPlantaActive()) return 'text-white';
   
-  // ⭐ ESPECIAL PARA MODELO 3D (SEMPRE CINZA)
   if (path === '/modelo3d') return 'text-gray-500 group-hover:text-blue-600';
   
   return isActive(path) ? 'text-white' : 'text-gray-500';
