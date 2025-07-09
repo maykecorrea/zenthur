@@ -402,7 +402,7 @@ import api from '~/utils/api';
 import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-const API_URL = 'http://localhost:4001';
+const API_URL = '/api';
 const router = useRouter(); // Adicione o router se não estiver presente
 
 // Inicialize todas as variáveis reativas antes de qualquer método

@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   // Estado inicial
   state: () => ({
-    apiUrl: 'http://localhost:4001/api', 
+    apiUrl: '/api', 
     token: null,        
     user: null,         
     role: null,         
@@ -141,7 +141,7 @@ export const useAuthStore = defineStore('auth', {
         }
         
         // Tente usar o endpoint refresh-token se você tiver um
-        const response = await fetch('http://localhost:4001/api/auth/refresh-token', {
+        const response = await fetch('/api/auth/refresh-token', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

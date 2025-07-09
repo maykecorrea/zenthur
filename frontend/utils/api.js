@@ -1,6 +1,6 @@
 import { useAuthStore } from '~/stores/auth';
 
-const BASE_URL = 'http://localhost:4001/api';
+const BASE_URL = '/api';
 
 // Função para fazer requisições HTTP
 const request = async (url, options = {}) => {

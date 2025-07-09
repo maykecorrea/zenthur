@@ -193,7 +193,7 @@ const carregarEquipamentos = async () => {
   try {
     const token = localStorage.getItem('auth_token');
     
-    const response = await fetch('http://localhost:4001/api/equipamentos', {
+    const response = await fetch('/api/equipamentos', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -213,7 +213,7 @@ const salvarEdicao = async (dadosEditados) => {
   try {
     const token = localStorage.getItem('auth_token');
     
-    const response = await fetch(`http://localhost:4001/api/manutencoes/${dadosEditados.id}`, {
+    const response = await fetch(`/api/manutencoes/${dadosEditados.id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -244,7 +244,7 @@ const arquivarManutencao = async () => {
   try {
     const token = localStorage.getItem('auth_token');
     
-    const response = await fetch(`http://localhost:4001/api/manutencoes/${props.maintenance.id}/arquivar`, {
+    const response = await fetch(`/api/manutencoes/${props.maintenance.id}/arquivar`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,

@@ -480,7 +480,7 @@ const fetchManutencoes = async () => {
 
     console.log('🔄 Carregando manutenções...');
     
-    const response = await fetch('http://localhost:4001/api/manutencoes', {
+    const response = await fetch('/api/manutencoes', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -520,7 +520,7 @@ const atualizarStatus = async (id, novoStatus) => {
   try {
     const token = authStore.token || localStorage.getItem('auth_token');
     
-    const response = await fetch(`http://localhost:4001/api/manutencoes/${id}`, {
+    const response = await fetch(`/api/manutencoes/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -570,7 +570,7 @@ const excluirManutencao = async (id) => {
     try {
       const token = authStore.token || localStorage.getItem('auth_token');
       
-      const response = await fetch(`http://localhost:4001/api/manutencoes/${id}`, {
+      const response = await fetch(`/api/manutencoes/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -447,7 +447,7 @@ const formatDate = (dateString) => {
 // Fetch documentos
 const fetchDocumentos = async () => {
   try {
-    const response = await fetch(`http://localhost:4001/api/documentos`, {
+    const response = await fetch(`/api/documentos`, {
       headers: {
         'Authorization': `Bearer ${authStore.token}`
       }
@@ -475,7 +475,7 @@ const downloadDocument = async (doc) => {
 
     downloadingId.value = doc.id;
 
-    const response = await fetch(`http://localhost:4001/api/documentos/${doc.id}/download`, {
+    const response = await fetch(`/api/documentos/${doc.id}/download`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authStore.token}`

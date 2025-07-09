@@ -372,7 +372,7 @@ const fetchEquipamentos = async () => {
       return;
     }
     
-    const response = await fetch('http://localhost:4001/api/equipamentos', {
+    const response = await fetch('/api/equipamentos', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -468,7 +468,7 @@ const salvarManutencao = async () => {
     console.log('📤 Dados para envio:', dadosParaEnvio);
     
     // Fazer requisição
-    const response = await fetch('http://localhost:4001/api/manutencoes', {
+    const response = await fetch('/api/manutencoes', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
