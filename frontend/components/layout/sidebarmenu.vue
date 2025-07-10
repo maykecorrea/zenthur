@@ -23,19 +23,6 @@
         </svg>
       </button>
       
-      <!-- Cabeçalho com logo -->
-      <div class="flex justify-center items-center h-20 border-b border-gray-200 px-4">
-        <div class="transition-all duration-300 overflow-hidden w-full flex justify-center items-center">
-          <!-- Logo: exibido tanto expandido quanto minimizado -->
-          <img 
-            :src="logoUrl" 
-            alt="Logo Zenthur"
-            class="transition-all duration-300"
-            :class="isExpanded ? 'h-12 w-auto max-w-full' : 'h-8 w-8 rounded-md'"
-          />
-        </div>
-      </div>
-      
       <!-- Menu de navegação -->
       <nav class="flex-1 px-4 py-4 overflow-y-auto">
         <div class="space-y-1">
