@@ -6,10 +6,20 @@
     <!-- Container principal do sidebar -->
     <div class="flex flex-col h-full overflow-hidden">
       
+      <!-- Header com logo centralizada -->
+      <div class="flex justify-center items-center h-20 border-b border-gray-200 relative bg-white">
+        <img
+          :src="logoUrl"
+          alt="Logo Zenthur"
+          class="object-contain transition-all duration-200"
+          :class="[isExpanded ? 'w-32 h-14' : 'w-10 h-10']"
+        />
+      </div>
+
       <!-- Botão para expandir/minimizar -->
       <button 
         @click="toggleSidebar" 
-        class="absolute -right-3 top-6 bg-white border border-gray-300 rounded-full p-1.5 shadow-md z-50 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+        class="absolute -right-3 top-24 bg-white border border-gray-300 rounded-full p-1.5 shadow-md z-50 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
