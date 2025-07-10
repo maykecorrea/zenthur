@@ -258,16 +258,13 @@ import logoImage from '~/assets/img/logo.jpg';
 
 const route = useRoute();
 
-// Logo (sempre visível; responsivo pelo estado do menu)
 const logoUrl = computed(() => logoImage);
 
-// Estados
 const isExpanded = ref(true);
 const isManutencaoMenuOpen = ref(false);
 const isPlantaMenuOpen = ref(false);
 const isDocumentacaoMenuOpen = ref(false);
 
-// Classes dinâmicas para items do menu
 const menuItemClass = (path, isSubmenu = false) => {
   const baseClass = 'flex items-center px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer group';
   const expandedClass = isExpanded.value ? 'justify-between' : 'justify-center';
@@ -287,7 +284,6 @@ const menuItemClass = (path, isSubmenu = false) => {
     ].join(' ');
   }
   
-  // Especial para Modelo 3D (sempre cinza - link externo)
   if (path === '/modelo3d') {
     return [
       baseClass,
@@ -318,13 +314,10 @@ const iconClass = (path) => {
   if (path === 'documentacao' && isDocumentacaoActive()) return 'text-white';
   if (path === 'manutencao' && isManutencaoActive()) return 'text-white';
   if (path === 'planta' && isPlantaActive()) return 'text-white';
-  
   if (path === '/modelo3d') return 'text-gray-500 group-hover:text-blue-600';
-  
   return isActive(path) ? 'text-white' : 'text-gray-500';
 };
 
-// Funções de toggle
 const toggleSidebar = () => {
   isExpanded.value = !isExpanded.value;
   try {
@@ -364,7 +357,6 @@ const togglePlantaMenu = () => {
   }
 };
 
-// Funções de verificação de estado ativo
 const isActive = (path) => {
   return route.path === path || route.path.startsWith(path + '/');
 };
@@ -395,19 +387,15 @@ const logout = () => {
   }
 };
 
-// Inicialização
 onMounted(() => {
   try {
     const savedState = localStorage.getItem('sidebarExpanded');
     if (savedState !== null) {
       isExpanded.value = savedState === 'true';
     }
-    
-    // Auto-expandir menus ativos
     if (isManutencaoActive()) isManutencaoMenuOpen.value = true;
     if (isPlantaActive()) isPlantaMenuOpen.value = true;
     if (isDocumentacaoActive()) isDocumentacaoMenuOpen.value = true;
-    
   } catch (error) {
     console.error('Erro ao carregar preferências:', error);
   }
@@ -415,40 +403,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Animações para submenus */
 .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
-
 .slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   transform: translateY(-10px);
   opacity: 0;
 }
-
-/* Melhorias visuais */
 .group:hover .group-hover\:scale-105 {
   transform: scale(1.05);
 }
-
-/* Scrollbar customizado */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #e2e8f0;
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
