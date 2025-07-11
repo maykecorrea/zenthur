@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/equipamentos', equipamentosRoutes);
 app.use('/api/users', usersRoutes); // ⭐ ADICIONAR
-app.use('/api/dashboard', require('./routes/dashboard'));
+
 
 // Rota de teste
 app.get('/', (req, res) => {
