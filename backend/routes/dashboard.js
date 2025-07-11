@@ -13,7 +13,8 @@ const addDays = (date, days) => {
 };
 
 // Estatísticas do dashboard
-router.get('/stats', authMiddleware, async (req, res) => {
+// ⭐ Rota alterada de '/stats' para '/estatisticas' para corresponder ao frontend
+router.get('/estatisticas', authMiddleware, async (req, res) => {
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
@@ -50,22 +51,6 @@ router.get('/stats', authMiddleware, async (req, res) => {
         where: {
           dataPrevisao: {
             lt: today
-          },
-          status: {
-            notIn: ['concluida', 'cancelada'] 
-          }
-        }
-      }),
-
-      // ⭐ Lógica para contar manutenções próximas do vencimento:
-      // - dataPrevisao maior ou igual à data de hoje
-      // - dataPrevisao menor ou igual a 7 dias a partir de hoje
-      // - status não está em 'concluida' ou 'cancelada'
-      prisma.manutencao.count({
-        where: {
-          dataPrevisao: {
-            gte: today,
-            lte: sevenDaysFromNow
           },
           status: {
             notIn: ['concluida', 'cancelada'] 
