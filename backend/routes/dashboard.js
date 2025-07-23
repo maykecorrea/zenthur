@@ -12,7 +12,7 @@ const addDays = (date, days) => {
   return result;
 };
 
-// Estatísticas do dashboard
+
 // ⭐ Rota alterada de '/stats' para '/estatisticas' para corresponder ao frontend
 router.get('/estatisticas', authMiddleware, async (req, res) => {
   try {
